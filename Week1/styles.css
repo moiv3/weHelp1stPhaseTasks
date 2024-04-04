@@ -1,0 +1,194 @@
+html {
+    font-size: 20px;
+    font-family: sans-serif;
+  }
+
+.sitename{
+    padding: 0px;
+    margin: 10px;
+}
+
+.welcome{
+    font-size: 2em;
+}
+
+#welcomebox{
+    height: 250px;
+    background-color:aqua;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+}
+
+.navbar{
+    list-style:none;
+    padding: 0px;
+    margin: 0px;
+    display:flex;
+}
+
+.navbar > li {
+    padding: 0px;
+    margin: 10px;
+}
+
+.top-container{
+    display:flex;
+    justify-content: space-between;
+}
+
+#top-container-sm{
+    display:none;
+}
+
+.smallbox{
+    width: 33%;
+    height: 50px;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 0px;
+}
+
+#smallboxes{
+    background-color:rgb(124, 255, 119);
+    display:flex;
+    justify-content: center;
+    align-items:center;
+}
+
+.bigboxgroup{
+    display:flex;
+}
+
+.bigbox1{
+    flex:2;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 0px;
+}
+
+.bigbox2{
+    flex:1;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 0px;
+}
+
+.maincontent{
+    width: 1200px;
+    margin: auto;
+}
+
+.popupmenu {  
+    display:none;
+    height: 100%;
+    max-width: 200px;
+    position: fixed; /* 必須要固定在這個地方 */
+    z-index: 1; /* 其他人沒有定義，把這個物件放在堆疊的最上面 */
+    background-color: rgb(255, 159, 250);
+    right:0;
+    top:0;
+}
+
+.popuplist{
+    list-style:none;
+}
+
+.closebtn{
+    max-height:50px;
+}
+
+
+@media screen and (max-width:1200px){
+
+    #welcomebox{
+        height: 250px;
+        background-color:aqua;
+        display:flex;
+        justify-content: center;
+        align-items:center;
+    }
+
+    .navbar{
+        list-style:none;
+        padding: 0px;
+        margin: 0px;
+        display:flex;
+    }
+
+    .navbar > li {
+        padding: 0px;
+        margin: 10px;
+    }
+
+    .top-container{
+        display:flex;
+        justify-content: space-between;
+    }
+
+    .maincontent{
+        width: 90%;
+        margin: auto;
+    }
+
+    .smallbox{
+        width: 50%;
+        height: 50px;
+    }
+    .smallbox:nth-child(3){
+        width: 100%;
+        height: 50px;
+    }
+
+    #smallboxes{
+        background-color:rgb(124, 255, 119);
+        display:flex;
+        flex-wrap:wrap;
+        justify-content: center;
+        align-items:center;
+    }
+
+    .bigboxgroup{
+        background-color:rgb(49, 104, 47);
+        display:flex;
+        flex-wrap:wrap;
+    }
+
+    .bigbox1{
+        flex:0 0 25%;
+    }
+
+    .bigbox1:nth-child(9){
+        flex:0 0 50%;
+    }
+    .bigbox1:nth-child(10){
+        flex:0 0 50%;
+    }
+
+    .bigbox2{
+        flex:1;
+        border: 1px solid black;
+        padding: 10px;
+        margin: 0px;
+    }
+}
+
+@media screen and (max-width:600px){
+    #top-container-lg{
+        display:none;
+    }
+    
+    #top-container-sm{
+        display:flex;
+    }
+
+    .smallbox{
+        flex:0 0 100%;
+        height: 50px;
+    }
+
+    .bigbox1{
+        flex:0 0 100%;
+    }
+
+}
