@@ -18,12 +18,12 @@ img {
 
 #welcomebox{
     height: 250px;
-    background-color:rgb(125, 250, 250);
+    background-color:lightskyblue;
     text-align: center;
     display:flex;
     justify-content: center;
     align-items:center;    
-    margin-bottom: 20px;
+    margin: 10px;
 }
 
 .navbar{
@@ -49,47 +49,48 @@ img {
 }
 
 .smallboxgroup{
-    display:flex;
-    /*flex-wrap:wrap;*/
-    justify-content: center;
-    align-items:center;
-    gap: 20px;
-    margin-bottom: 20px;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    max-width:100%;
 }
 
 .smallbox{
-    background-color:rgb(124, 255, 119);
-    width: 33.3%;
-    height:50px;
+    background-color:lightblue;
+    height: 50px;
     overflow:hidden;
     display:flex;
     align-items:center;
-
+    margin: 10px;
 }
 
 .smallboximage{
-    max-width:80px;
-    width:100%;    
-    /*object-fit: cover;
-    object-position: center;*/
+    width:80px;
+    height:50px;
+    object-fit: cover;
 }
 
 .bigboxgroup{
     display:grid;
     grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-    gap: 20px;
     max-width:100%;
 }
 
 .bigbox1{
-    background-color:rgb(124, 255, 119);
+    background-color:lightblue;
     height: 100px;
     padding: 0px;
     margin: 0px;
     display:flex;
     align-items:center;    
-    overflow:hidden;
+    overflow: hidden;
     position: relative;
+    margin: 10px;
+}
+
+.bigboximage{
+    width:100%;
+    height:100%;
+    object-fit: cover;
 }
 
 .text-block{
@@ -100,6 +101,13 @@ img {
     background-color: rgba(255,255,255,50%);
 }
 
+.starimg {
+    position: absolute;
+    top:0;
+    right:0;
+    max-height:25%;
+}
+
 .maincontent{
     width: 1200px;
     margin: auto;
@@ -107,23 +115,29 @@ img {
 
 .popupmenu {  
     display:none;
+    background-color:white;
     height: 100%;
-    max-width: 200px;
+    width: 200px;
     position: fixed; /* 必須要固定在這個地方 */
     z-index: 1; /* 其他人沒有定義，把這個物件放在堆疊的最上面 */
-    background-color: rgb(255, 159, 250);
     right:0;
     top:0;
+    text-align:right;
 }
 
-.popuplist{
+.popupitem{
+    width: 100%;
+    max-height:50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align:center;
     list-style:none;
+
 }
 
 .closebtn{
-    max-height:50px;
+    margin:10px;
 }
-
 
 @media screen and (max-width:1200px){
 
@@ -149,28 +163,20 @@ img {
         margin: auto;
     }
 
-    .smallbox{
-        width: 50%;
-        height: 50px;
-    }
-    .smallbox:nth-child(3){
-        width: 100%;
-        height: 50px;
+    .smallboxgroup{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        max-width:100%;
     }
 
-    #smallboxes{
-        background-color:rgb(124, 255, 119);
-        display:flex;
-        flex-wrap:wrap;
-        justify-content: center;
-        align-items:center;
-
+    .smallbox:last-child{
+        grid-column: 1 / 3;
+        height: 50px;
     }
 
     .bigboxgroup{
         display:grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        gap: 20px;
         max-width:100%;
     }
 
@@ -196,13 +202,13 @@ img {
     #top-container-sm{
         display:flex;
     }
-
+ 
     .smallbox{
-        flex:0 0 100%;
-        height: 50px;
+        width:100%;
     }
 
     .smallboxgroup{
+        display:flex;
         flex-wrap:wrap;
     }
 
@@ -212,7 +218,7 @@ img {
     }
 
     .bigbox1{
-        flex:0 0 100%;
+        width:100%;
     }
 
 }

@@ -6,6 +6,6 @@ function closePopup() {
 
 function openPopup() {
     let popupmenu = document.querySelector('.popupmenu');
-    popupmenu.style.display = 'flex';
+    popupmenu.style.display = 'block';
     console.log('opened!');
 }
