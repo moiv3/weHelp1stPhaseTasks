@@ -1,6 +1,10 @@
-html {
+html{
     font-size: 20px;
     font-family: sans-serif;
+}
+
+body{
+    margin: 0;
 }
 
 img {
@@ -8,8 +12,8 @@ img {
 }
 
 .sitename{
-    padding: 0px;
-    margin: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .welcome{
@@ -23,7 +27,8 @@ img {
     display:flex;
     justify-content: center;
     align-items:center;    
-    margin: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .navbar{
@@ -31,17 +36,19 @@ img {
     padding: 0px;
     margin: 0px;
     display:flex;
+    justify-content: center;
 }
 
 .navbar > li {
-    padding: 0px;
-    margin: 10px;
+    margin-left:10px;
+    margin-right:10px;
 }
 
 .top-container{
     display:flex;
     justify-content: space-between;
     align-items:center;
+    margin-top:10px;
 }
 
 #top-container-sm{
@@ -67,6 +74,7 @@ img {
     width:80px;
     height:50px;
     object-fit: cover;
+    margin-right:10px;
 }
 
 .bigboxgroup{
@@ -106,9 +114,9 @@ img {
 
 .starimg {
     position: absolute;
-    top:0;
-    right:0;
-    max-height:25%;
+    top:5px;
+    right:5px;
+    max-height:20%;
 }
 
 .maincontent{
@@ -138,6 +146,11 @@ img {
 
 }
 
+.openbtn{
+    display:flex;
+    justify-content: center;
+}
+
 .closebtn{
     margin:10px;
 }
@@ -149,11 +162,6 @@ img {
         padding: 0px;
         margin: 0px;
         display:flex;
-    }
-
-    .navbar > li {
-        padding: 0px;
-        margin: 10px;
     }
 
     .top-container{
@@ -204,6 +212,8 @@ img {
     
     #top-container-sm{
         display:flex;
+        /*justify-content: center;*/
+        /*align-items: center;*/
     }
  
     .smallbox{
