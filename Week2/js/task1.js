@@ -2,31 +2,42 @@ function findAndPrint(messages, currentStation){
     // your code here
 
     //deep copy the messages object
-    //let unsortedArray = JSON.parse(JSON.stringify(unsortedPeople));
     let matchStation = JSON.parse(JSON.stringify(messages));
+    //怕如果動到matchStation會同時動到messages.但會嗎?試一下:
+    //let matchStation = messages; 
+    //結果出現: 
+    //task1.js:22 Uncaught TypeError: messages[message].includes is not a function
+    //Bob的message被取代成12了, 所以不能includes
 
     //find string in object
     //console.log(messages);
     //review: why use Object.keys?
-    for (const message of Object.keys(messages)){
-        //console.log(messages[message]);
+    //console.log(Object.keys(messages));
+    //objects are not iterable
+    //Object.keys returns an Array ['Bob', 'Mary', 'Copper', 'Leslie', 'Vivian']
+    //arrays are iterable!
+    //https://www.freecodecamp.org/news/how-to-iterate-over-objects-in-javascript/
+
+    for (message of Object.keys(messages)){  
         for (station of Object.keys(stations)){
-            //console.log(station);
             if (messages[message].includes(station)){
-            result = stations[station];
-            //console.log(result);
-            matchStation[message] = result;
+            let result = stations[station];
             //update the results to matchStation
-            //console.log(matchStation);
+            matchStation[message] = result;
+            //這裡有個考量點，我按照綠線車站的編號去編碼,那新店區公所剛好在編號2
+            //所以如果新店&新店區公所都符合，會先對中1再對中2, 2會取代1
+            //如果用其他的編碼方式，就需要處理(新店&新店區公所)或其他的例外
             }
         }
     }
-    //done
+    //console.log(matchStation);
 
-    //deep copy the matchStation object
+    //deep copy the matchStation object(考量跟上面一樣)
     let matchDiff = JSON.parse(JSON.stringify(matchStation));
 
     //calculate the difference
+    //if both user & friend at Xiaobitan or not at Xiaobitan =>直接相減
+    //if only one of (user & friend) at Xiaobitan =>小碧潭那位，先算到七張，再加1
     for (const message of Object.keys(messages)){
         //first case: user is at Xiaobitan
         if (stations[currentStation] === 99){
@@ -48,29 +59,25 @@ function findAndPrint(messages, currentStation){
         //console.log(matchDiff);
         }
     }
-    //find the closest friend and output
+    //find the closest friend
     let distanceArray = []
-    for (personDistance in matchDiff){
-        distanceArray.push(matchDiff[personDistance]);
+    //console.log(Object.keys(matchDiff));
+    for (person of Object.keys(matchDiff)){
+        //why can't i use matchDiff.person? returns "undefined".
+        //console.log(matchDiff[person]);
+        distanceArray.push(matchDiff[person]);
     }
     const minDistance = Math.min(...distanceArray);
 
-    //console.log(matchDiff);
-    for (item in matchDiff){
-        if (matchDiff[item] === minDistance){
-            console.log(item);
+    //and finally, output matching people
+    for (person of Object.keys(matchDiff)){
+        if (matchDiff[person] === minDistance){
+            console.log(person);
         }
         
     }
-    
-    //for (personDistance in matchDiff){
-    //    if distanceArray.push(matchDiff[personDistance]);
-    //}
-    //minDistance = Math.min(distanceArray);
-
-
-
 }
+
 
 
 

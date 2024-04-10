@@ -1,4 +1,5 @@
 // your code here, maybe
+//this one gave me trouble in js...
 function book(consultants, hour, duration, criteria){
     //console.log("===NEW ENTRY===");
     if (criteria === "rate" || criteria === "price"){
