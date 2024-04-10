@@ -1,18 +1,31 @@
 // your code here, maybe
 //this one gave me trouble in js...
 function book(consultants, hour, duration, criteria){
+// your code here
+    
+    //try to book people
     //console.log("===NEW ENTRY===");
     if (criteria === "rate" || criteria === "price"){
+        //because we have only one criteria => sort by that criteria.
+        //consultants is a "array of objects."
         sorted_consultants = sortPeople (consultants,criteria);
-        let booking_success = false;
         //console.log(sorted_consultants)
-        for (item of sorted_consultants){
+
+        let booking_success = false;
+        for (consultant of sorted_consultants){
+            //every item is an object.
             //console.log(item.name);
-            let trybooking = bookConsultant(item.name,hour,duration);
+            //store the return value(book OK = 0, NG = -1) in trybooking
+            let trybooking = bookConsultant(consultant.name,hour,duration);
+            //console.log(`Booking ${consultant.name}, trybooking value = ${trybooking}`);
             if (trybooking === 0){
-                console.log(item.name);
                 booking_success = true;
+                //console.log(`Booked ${consultant.name}, breaking out of the loop`);
+                //if booking success, get out of the loop to avoid double booking
                 break;
+            }
+            else{
+                //console.log(`Did not book ${consultant.name}, continuing the loop`);
             }
             
         }
@@ -24,23 +37,18 @@ function book(consultants, hour, duration, criteria){
     else{
         console.log("criteria not supported!");
     }
-    // your code here
 
 }
 
 function sortPeople(unsortedPeople,criteria){
-    //console.log(unsortedPeople);
+    //deep copy unsortedPeople
     let unsortedArray = JSON.parse(JSON.stringify(unsortedPeople));
     let sortedArray = [];
-    //console.log(sortedArray);
-    //console.log(unsortedArray);
     //sort according to criteria
+    //有x個人，就要loop x次
     for (let i = 0; i < unsortedPeople.length; i++){
-
+        //initialize bestperson
         let bestperson = unsortedArray[0];
-        //console.log(unsortedArray.length);
-        //console.log(bestperson);
-        //console.log(sortedArray);
         for (person of unsortedArray){
             if (criteria === "rate"){
                 if (person[criteria]>bestperson[criteria]){
@@ -53,56 +61,72 @@ function sortPeople(unsortedPeople,criteria){
                 }
             }
             else{
-                print("criteria not supported yet")
+                print("criteria not supported yet");
                 return 0;
             }
         }    
         //console.log(bestperson);
         //append bestperson to new array
         sortedArray.push(bestperson);
+        //remove bestperson from old array
         unsortedArray.splice(unsortedArray.indexOf(bestperson),1);
         //console.log(sortedArray);
         //console.log(unsortedArray);
     }
 //console.log("sorting function in progress");
 //console.log(sortedArray);
+//return, 讓外面的sorted_consultants可以有一個回傳值
 return (sortedArray);
 }
 
+// a function for booking ONE consultant
 function bookConsultant(consultant,start,duration){
-    // a function for booking ONE consultant
-    // search the consultant
-    let no_book_flag = 0;
+    // search for the consultant
+    let no_book_flag = 1;
+    //這裡用了一個讓人感到驚恐的method: forEach
+    //masterSchedule is an array of objects
+    //every object: (人名):(時間表)
+    //(might be possible to rewrite by a "for" loop?)
+    //masterSchedule裡面的每一個item(就是object)都做這個事情:
     masterSchedule.forEach(item => {
         if ((item.name) === consultant){
             no_book_flag = 0;
+            //console.log(no_book_flag);  
+            //如果寫成let no_book_flag = 0;, 答案就會改變(錯誤),為什麼?
+            //是否重新定義了裡面的no_book_flag = 0, 所以外面的no_book_flag = 1,不受理面的作業影響，就都是1?
+            //看起來是。而且程式會照booking
+            //檢查是否每一個時間段都可以booking
             for (let i=start;i<start+duration;i++){
                 let j = i >= 24 ? i - 24 : i;
                 if (item.schedule[j] === 1){
                     no_book_flag = 1;
+                    //console.log(`Can not book ${item.name}`);
                 }
             
             }
-
+            
+            //如果no_book_flag沒有打開就可以booking他
             if (no_book_flag === 0){
                 //console.log(`consultant ${item.name}'s schedule:`);
                 //console.log(item.schedule);
                 for (let i=start;i<start+duration;i++){
                     let j = i >= 24 ? i - 24 : i;
                     item.schedule[j] = 1;
+                    
                     }
-                
+                console.log(item.name);
                 //console.log(`booking ${item.name}...`);
                 //console.log(`${item.name}'s new schedule:`);
                 //console.log(item.schedule);
             }
-
             else{
-                //console.log("Did not book consultant due to schedule conflict!");
+                //console.log(`Did not book ${item} due to schedule conflict!`);
             }
         }
+    //console.log(no_book_flag);    
     });
-    //console.log(no_book_flag);
+    //forEach會return undefined
+    //no_book_flag傳回給trybooking的值
     return no_book_flag;
 
 }
