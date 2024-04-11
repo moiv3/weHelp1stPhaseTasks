@@ -28,3 +28,8 @@ getNumber(1); // print 4
 getNumber(5); // print 15
 getNumber(10); // print 25
 getNumber(30); // print 70
+
+//additional test data
+//getNumber(2) // print 8
+//getNumber(4) // print 11
+//getNumber(20) // print 50

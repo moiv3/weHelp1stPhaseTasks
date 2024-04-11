@@ -10,7 +10,7 @@ function func(...data){
         middle_char_array.push(item[Math.ceil((item.length-1)/2)]);     
     }
     //for example, middle_char_array=["大,"明","明"]
-    console.log(middle_char_array);
+    //console.log(middle_char_array);
 
     //count how many middle_char's are in this array. for those with one middle_char, they are to be printed.
     let flag = 0;
@@ -28,7 +28,7 @@ function func(...data){
         //data[~]: 印出原array(tuple?)第"那個"item
         //javascript使用indexOf = python的index method
         //因為第幾個item順序沒有變
-        //console.log(data[middle_char_array.indexOf(middle_char)]);
+        console.log(data[middle_char_array.indexOf(middle_char)]);
         flag = 1;
         }
 
@@ -46,5 +46,9 @@ function func(...data){
     func("郭宣雅", "林靜宜", "郭宣恆", "林靜花"); // print 沒有
     func("郭宣雅", "夏曼藍波安", "郭宣恆"); // print 夏曼藍波安
     
-    //func("郭宣雅", "夏曼藍波安", "郭宣恆", "林靜花"); // print 夏曼藍波安, 林靜花
+    //additional test data
+    //func("郭宣雅", "夏曼藍波安", "郭宣恆","郭宣A","郭宣B",) // print 夏曼藍波安
+    //func("夏曼藍波安", "夏曼藍波安", "郭宣恆","郭宣A","郭宣B",) // print 沒有
+    //func("AAA", "BBB", "CCC", "CCC","DDD","EEE") // print "AAA", "BBB", "DDD","EEE"
+    //func("파란색", "주황색", "초록색","노란색") // print "주황색", "초록색"  //韓元鈔票的人名，亂找的
     

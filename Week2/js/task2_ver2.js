@@ -167,3 +167,20 @@ book(consultants, 20, 2, "rate"); // John
 book(consultants, 11, 1, "rate"); // Bob
 book(consultants, 11, 2, "rate"); // No Service
 book(consultants, 14, 3, "price"); // John
+
+//additional test data
+//book(consultants, 15, 1, "price"); // Jenny
+//book(consultants, 11, 2, "price"); // Jenny
+//book(consultants, 10, 2, "price"); // John
+//book(consultants, 20, 2, "rate"); // John
+//book(consultants, 11, 1, "rate"); // Bob
+//book(consultants, 11, 2, "rate"); // No Service
+//book(consultants, 14, 3, "price"); // John
+//
+//book(consultants, 15, 1, "price"); // Bob
+//book(consultants, 11, 2, "price"); // No Service
+//book(consultants, 10, 2, "price"); // No Service
+//book(consultants, 20, 2, "rate"); // Jenny
+//book(consultants, 11, 1, "rate"); // No Service
+//book(consultants, 11, 2, "rate"); // No Service
+//book(consultants, 14, 3, "price"); // No Service

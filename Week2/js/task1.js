@@ -78,9 +78,6 @@ function findAndPrint(messages, currentStation){
     }
 }
 
-
-
-
     const stations = {
         "Xindian":1,
         "Xindian City Hall":2,
@@ -118,3 +115,42 @@ console.log("==Task 1==");
     findAndPrint(messages, "Qizhang"); // print Leslie
     findAndPrint(messages, "Ximen"); // print Bob
     findAndPrint(messages, "Xindian City Hall"); // print Vivian
+
+    //additional test data
+    /*
+    const messages={
+        "Leslie":"I'm at home near Xiaobitan station.",
+        "Bob":"I'm at Ximen MRT station.",
+        "Mary":"I have a drink near Jingmei MRT station.",
+        "Copper":"I just saw a concert at Taipei Arena.",
+        "Vivian":"I'm at Xindian station waiting for you.",
+        "WiWian":"I'm at Xindian City Hall station waiting for you.",
+        "Xixian":"I'm at Qizhang station waiting for you.",
+        "Yiyian":"I'm at Dapinglin station waiting for you.",
+        "Zizian":"I'm at Jingmei station waiting for you.",
+        "Aiaian":"I'm at Wanlong station waiting for you.",
+        "Bibian":"I'm at Gongguan station waiting for you.",
+        "Cician":"I'm at Taipower Building station waiting for you.",
+        }
+        
+        findAndPrint(messages, "Xindian"); //Vivian
+        findAndPrint(messages, "Xindian City Hall"); //Wiwian
+        findAndPrint(messages, "Qizhang"); //Xixian
+        findAndPrint(messages, "Dapinglin"); //Yiyian
+        findAndPrint(messages, "Jingmei"); //Mary
+        findAndPrint(messages, "Wanlong"); //Zizian
+        findAndPrint(messages, "Gongguan"); //Aiaian
+        findAndPrint(messages, "Taipower Building"); //Bibian
+        findAndPrint(messages, "Guting"); //Cician
+        findAndPrint(messages, "Chiang Kai-shek Memorial Hall"); //Cician
+        findAndPrint(messages, "Xiaonanmen"); //Bob
+        findAndPrint(messages, "Ximen"); //Bob
+        findAndPrint(messages, "Beimen"); //Bob
+        findAndPrint(messages, "Zhongshan"); //Bob
+        findAndPrint(messages, "Songjiang Nanjing"); //Copper
+        findAndPrint(messages, "Nanjing Fuxing"); //Copper
+        findAndPrint(messages, "Taipei Arena"); //Copper
+        findAndPrint(messages, "Nanjing Sanmin"); //Copper
+        findAndPrint(messages, "Songshan"); //Copper
+        findAndPrint(messages, "Xiaobitan"); //Leslie
+    */
