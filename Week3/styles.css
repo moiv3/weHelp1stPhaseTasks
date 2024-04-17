@@ -1,0 +1,247 @@
+html{
+    font-size: 20px;
+    font-family: sans-serif;
+}
+
+body{
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+}
+
+.sitename{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.welcome{
+    font-size: 2em;
+}
+
+#welcomebox{
+    height: 250px;
+    background-color:lightskyblue;
+    text-align: center;
+    display:flex;
+    justify-content: center;
+    align-items:center;    
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.navbar{
+    list-style:none;
+    padding: 0px;
+    margin: 0px;
+    display:flex;
+    justify-content: center;
+}
+
+.navbar > li {
+    margin-left:10px;
+    margin-right:10px;
+}
+
+.top-container{
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    margin-top:10px;
+}
+
+#top-container-sm{
+    display:none;
+}
+
+.smallboxgroup{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    max-width:100%;
+}
+
+.smallbox{
+    background-color:lightblue;
+    height: 50px;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    margin: 10px;
+}
+
+.smallboximage{
+    width:80px;
+    height:50px;
+    object-fit: cover;
+    margin-right:10px;
+}
+
+.bigboxgroup{
+    display:grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) ;
+    max-width:100%;
+    min-width: 0;
+}
+
+.bigbox1{
+    background-color:lightblue;
+    height: 150px;
+    min-width: 0;
+    padding: 0px;
+    margin: 0px;
+    display:flex;
+    align-items:center;    
+    overflow: hidden;
+    position: relative;
+    margin: 10px;
+}
+
+.bigboximage{
+    width:100%;
+    min-width: 0;
+    height:100%;
+    object-fit: cover;
+}
+
+.text-block{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width:100%;
+    min-width: 0;
+    bottom:0;
+    text-align: center;
+    background-color: rgba(255,255,255,50%);
+}
+
+.text-block-text{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.starimg {
+    position: absolute;
+    top:5px;
+    right:5px;
+    max-height:20%;
+}
+
+.maincontent{
+    width: 1200px;
+    margin: auto;
+}
+
+.popupmenu {  
+    display:none;
+    background-color:white;
+    height: 100%;
+    width: 200px;
+    position: fixed; /* 必須要固定在這個地方 */
+    z-index: 1; /* 其他人沒有定義，把這個物件放在堆疊的最上面 */
+    right:0;
+    top:0;
+    text-align:right;
+}
+
+.popupitem{
+    width: 100%;
+    max-height:50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align:center;
+    list-style:none;
+
+}
+
+.openbtn{
+    display:flex;
+    justify-content: center;
+}
+
+.closebtn{
+    margin:10px;
+}
+
+@media screen and (max-width:1200px){
+
+    .navbar{
+        list-style:none;
+        padding: 0px;
+        margin: 0px;
+        display:flex;
+    }
+
+    .top-container{
+        display:flex;
+        justify-content: space-between;
+    }
+
+    .maincontent{
+        width: 90%;
+        margin: auto;
+    }
+
+    .smallboxgroup{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        max-width:100%;
+    }
+
+    .smallbox:last-child{
+        grid-column: 1 / 3;
+        height: 50px;
+    }
+
+    .bigboxgroup{
+        display:grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        max-width:100%;
+    }
+
+    .bigbox1{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .bigbox1:nth-child(9){
+        grid-column: 1 / 3;
+    }
+    .bigbox1:nth-child(10){
+        grid-column: 3 / 5;
+    }
+
+}
+
+@media screen and (max-width:600px){
+    #top-container-lg{
+        display:none;
+    }
+    
+    #top-container-sm{
+        display:flex;
+        /*justify-content: center;*/
+        /*align-items: center;*/
+    }
+ 
+    .smallbox{
+        width:100%;
+    }
+
+    .smallboxgroup{
+        display:flex;
+        flex-wrap:wrap;
+    }
+
+    .bigboxgroup{
+        display:flex;
+        flex-wrap: wrap;
+    }
+
+    .bigbox1{
+        width:100%;
+    }
+
+}

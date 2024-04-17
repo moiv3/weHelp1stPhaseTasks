@@ -67,7 +67,15 @@ function findAndPrint(messages, currentStation){
         //console.log(matchDiff[person]);
         distanceArray.push(matchDiff[person]);
     }
+    // Math.min returns the minimum of all GIVEN NUMBERS, not an array.
+    // Math.max(value1, value2, /* …, */ valueN) by MDN.
     const minDistance = Math.min(...distanceArray);
+
+    //console.log(distanceArray);
+    //console.log(...distanceArray);
+    //console.log(Math.min(...distanceArray));
+    //console.log(Math.min(distanceArray));
+    //console.log(minDistance);
 
     //and finally, output matching people
     for (person of Object.keys(matchDiff)){

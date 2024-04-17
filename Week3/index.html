@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Week THREE Assignment - Fetching Data from the Web - RWD Still Needs To Work</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+
+  <body>
+    <div class="top-container" id="top-container-lg">
+        <div class = "sitename">My Website</div>
+        <div>
+            <ul class="navbar">
+                <li>Item 1</li>
+                <li>Item 2</li>
+                <li>Item 3</li>
+                <li>Item 4</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="top-container" id="top-container-sm">
+        <div class = "sitename">My Website</div>
+        <div><a class="openbtn" onclick="openPopup()"><img src="burgericon.svg"></a></div>
+    </div>
+
+    <div class="popupmenu">
+        <a onclick="closePopup()"><div class="closebtn">X</div></a>
+            <div class="popupitem">Item 1</div>
+            <div class="popupitem">Item 2</div>
+            <div class="popupitem">Item 3</div>
+            <div class="popupitem">Item 4</div>
+    </div>
+
+    <div class="welcome" id="welcomebox">
+        Welcome to MyHome
+    </div>
+
+    <div class="maincontent">
+
+        <div class="smallboxgroup">
+            <div class="smallbox"><img src="image01.jpg" class="smallboximage"></div>
+            <div class="smallbox"><img src="image02.jpg" class="smallboximage"></div>
+            <div class="smallbox"><img src="image03.jpg" class="smallboximage"></div>
+        </div>
+
+        <div id="bigboxes">
+            <div class="bigboxgroup">
+                <div class="bigbox1"><img src="image01.jpg" class="bigboximage"><div class="text-block"><div class="text-block-text"></div></div><img src="star.svg" class="starimg"></img></div>
+                <div class="bigbox1"><img src="image02.jpg" class="bigboximage"><div class="text-block"><div class="text-block-text"></div></div><img src="star.svg" class="starimg"></img></div>
+                <div class="bigbox1"><img src="image03.jpg" class="bigboximage"><div class="text-block"><div class="text-block-text"></div></div><img src="star.svg" class="starimg"></img></div>
+                <div class="bigbox1"><img src="image04.jpg" class="bigboximage"><div class="text-block"><div class="text-block-text"></div></div><img src="star.svg" class="starimg"></img></div>
+                <div class="bigbox1"><img src="image05.jpg" class="bigboximage"><div class="text-block"><div class="text-block-text"></div></div><img src="star.svg" class="starimg"></img></div>
+                <div class="bigbox1"><img src="image06.jpg" class="bigboximage"><div class="text-block"><div class="text-block-text"></div></div><img src="star.svg" class="starimg"></img></div>
+                <div class="bigbox1"><img src="image07.jpg" class="bigboximage"><div class="text-block"><div class="text-block-text"></div></div><img src="star.svg" class="starimg"></img></div>
+                <div class="bigbox1"><img src="image08.jpg" class="bigboximage"><div class="text-block"><div class="text-block-text"></div></div><img src="star.svg" class="starimg"></img></div>
+                <div class="bigbox1"><img src="image09.jpg" class="bigboximage"><div class="text-block"><div class="text-block-text"></div></div><img src="star.svg" class="starimg"></img></div>
+                <div class="bigbox1"><img src="image10.jpg" class="bigboximage"><div class="text-block"><div class="text-block-text"></div></div><img src="star.svg" class="starimg"></img></div>
+            </div>
+        </div>
+        
+    </div>
+
+	<script src="script.js"></script>
+  </body>
+</html>
