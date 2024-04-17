@@ -1,91 +1,131 @@
-import json
+from bs4 import BeautifulSoup
 
-with open('taipei-attractions-assignment-1', 'r', encoding='UTF-8') as attraction1File:
-    data1 = attraction1File.read()
+#online version WIP
 
-with open('taipei-attractions-assignment-2', 'r', encoding='UTF-8') as attraction2File:
-    data2 = attraction2File.read()
+import requests,time,csv
 
-import re
+start_time = time.time()
+url = 'https://www.ptt.cc/bbs/Lottery/index.html'
+page_headers = {
+    "cookie":"over18=1",
+    "User-Agent":'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
+    }
+list_of_posts=[]
 
-import csv
+#configuration
+pages_to_scrape = 3
+publish_time_position = 3
 
-with open('spot.csv', 'a', newline="", encoding='utf-8') as spot_file:
+#print('Status code: ', response.status_code)
+#print('Text: ', response.text[:50])
 
-    spot_writer_object = csv.writer(spot_file,delimiter=',')
-
-    parsed_data1 = json.loads(data1)
-    #print(parsed_data['data'])
-
-    parsed_data2 = json.loads(data2)
-    #print(parsed_data['data'])
-
-    for station in parsed_data2['data']:
-        location = station['address'].find('區')
-        station['district']=station['address'][location-2:location+1]
-    #print(parsed_data2['data'])
-
-    for attraction in parsed_data1['data']['results']:
-        #print(attraction['stitle'])
-        mrt_dict={}
-        for station in parsed_data2['data']:
-        #print((station['MRT']+'站'), station['address'], station['SERIAL_NO'])
-        
-            #print(attraction['info'].find((station['MRT']+'站')))
-            mrt_dict[station['MRT']] = attraction['info'].find((station['MRT']+'站'))
-            #print(station['MRT']+'站', parsed_data1['data']['results'][0]['info'].find((station['MRT']+'站')))
-
-        #find minimal distance person by value, then get its key - from week2 task1
-        keys = [k for k,v in mrt_dict.items() if (v>-1 and v==min(i for i in mrt_dict.values() if i > -1))]
-        #print (keys, attraction['info'])
-        if len(keys) == 0:
-            attraction['district'] = "NA"
-            attraction['MRT'] = "NA"
-        else:
-            attraction['district'] = [d['district'] for d in parsed_data2['data'] if d['MRT'] == keys[0]][0]
-            attraction['MRT'] = [d['MRT'] for d in parsed_data2['data'] if d['MRT'] == keys[0]][0]
-        
-        csv_line = attraction['stitle']+","+attraction['district']+","+attraction['longitude']+","+attraction['latitude']+","+re.findall(r"http.*?(?=http|$)",attraction['filelist'])[0]
-        print(csv_line)
-        spot_writer_object.writerow([csv_line])
-        #print (attraction['stitle'], keys, mrt_dict)
-
-    spot_file.close()
-
-with open('mrt.csv', 'a', newline="", encoding='utf-8') as mrt_file:
-
-    mrt_writer_object = csv.writer(mrt_file,delimiter=',')
-
-    for station in parsed_data2['data']:
-        attraction_list = []
-        attraction_list.append(station['MRT'])
-        for attraction in parsed_data1['data']['results']:
-            if station['MRT'] == attraction['MRT']:
-                #print(station['MRT'], attraction['stitle'])
-                attraction_list.append(attraction['stitle'])
-        print(attraction_list)
-        mrt_writer_object.writerow(attraction_list)
+for page in range(pages_to_scrape):
+    print(url)
+    #print("Parsing page",page+1,"...")
+    response = requests.get(url,headers=page_headers)
     
-    mrt_file.close()
+    website = BeautifulSoup(response.text, "html.parser")
+    #print(website)
+    entries_in_page = website.find_all("div",class_="r-ent")
 
-    #print(parsed_data2['data'])
+    for entry in entries_in_page:
+        entry_dict={}
+        #print(entry)
+        #標題
+        title = entry.find("div",class_="title")
+        anchor = title.find("a")
+        if anchor:
+            #print(anchor.text)
+            entry_dict["title"] = anchor.text
+            #print("https://www.ptt.cc" + anchor['href'])
+            inner_page = "https://www.ptt.cc" + anchor['href']
+            inner_response = requests.get(inner_page,headers=page_headers)
+            inner_website = BeautifulSoup(inner_response.text, "html.parser")
+            art_meta_values = inner_website.find_all("span", class_="article-meta-value")
+            try:
+                #print(art_meta_values[publish_time_position].text)
+                entry_dict["time"] = art_meta_values[publish_time_position].text
+            except:
+                #print("No publish time available")
+                entry_dict["time"] = ""
+            #also need to do online version!
+            #inner_website = anchor["href"]
+            #第4個值...在這邊先寫死，可以改成在外層就定義好?
 
-#for attraction in parsed_data1['data']['results']:
-    #print(attraction['stitle'],attraction['longitude'],attraction['latitude'],re.findall(r"http.*?(?=http|$)",attraction['filelist'])[0])
-    #這行做完要打開
+        #推噓文數。先只處理html上的數字(正值，無值，爆文=100)
+        #所有人都有nrec, 但沒顯示的不會有text
+            score = entry.find("div",class_="nrec")
+            if score.text:
+                #print(int(score.text))
+                entry_dict["score"]=int(score.text)
+            else:
+                #print("0")
+                entry_dict["score"]=0
 
-#test1 = parsed_data1['data']['results'][0]['filelist']
+            list_of_posts.append(entry_dict)
 
+        #else:
+            #print("沒找到!")
+        
+    print(len(list_of_posts))
 
+    last_page = website.find("a",string="‹ 上頁")
+    url = "https://www.ptt.cc" + last_page['href']
+    #print(url)
 
-#print(re.findall(r"http.*?(?=http|$)",test1)[0])
-#wanted to use re.split first, then found re.findall
-#https://stackoverflow.com/questions/48672653/split-a-string-but-keep-the-delimiter-in-the-same-resulting-substring-in-python
+#for post in list_of_posts:
+    #print(post["title"]+","+str(post["score"])+","+post["time"])
 
-#https://darkk6.blogspot.com/2017/03/regexp-lookahead-lookbehind.html
-#Positive lookahead ： X(?=Y)
-#Negative lookahead ： X(?!Y)
-#解釋為： 我要找 X 而其後方必須/不可為 Y ；而其中 X 和 Y 都可以是一個合法的表達式。
+with open('article.csv', 'a', newline="", encoding='utf-8') as article_file:
+    article_writer_object = csv.writer(article_file,delimiter=',')
 
-#The $ symbol is one of the most commonly used symbols in RegEx. It is used to match the end of a string.
-#In other words, you can call it "end of line anchor", since it anchors a pattern to the end of the line.
+    for post in list_of_posts:
+        article_writer_object.writerow((post["title"],str(post["score"]),post["time"]))
+        print(post["title"]+","+str(post["score"])+","+post["time"])
+
+article_file.close()
+
+end_time = time.time()
+print(end_time - start_time,"s")
+
+"""
+#local version backup
+        with open("LotteryP2080.html", encoding="utf8") as fp:
+    print("Parsing page...")
+    list_of_posts=[]
+    website = BeautifulSoup(fp, "html.parser")
+    entries_in_page = website.find_all("div",class_="r-ent")
+    for entry in entries_in_page:
+        entry_dict={}
+        #print(entry)
+        #標題
+        title = entry.find("div",class_="title")
+        anchor = title.find("a")
+        if anchor:
+            print(anchor.text)
+            entry_dict["title"] = anchor.text
+            with open("innerTest.html", encoding="utf8") as inner_fp:
+                inner_website = BeautifulSoup(inner_fp, "html.parser")
+                art_meta_values = inner_website.find_all("span", class_="article-meta-value")
+                print(art_meta_values[3].text)
+                entry_dict["time"] = art_meta_values[3].text
+            #also need to do online version!
+            #inner_website = anchor["href"]
+            #第4個值...在這邊先寫死，可以改成在外層就定義好?
+
+        #推噓文數。先只處理html上的數字(正值，無值，爆文=100)
+        #所有人都有nrec, 但沒顯示的不會有text
+            score = entry.find("div",class_="nrec")
+            if score.text:
+                print(int(score.text))
+                entry_dict["score"]=int(score.text)
+            else:
+                print("0")
+                entry_dict["score"]=0
+
+            list_of_posts.append(entry_dict)
+
+        else:
+            print("沒找到!")
+
+        """
