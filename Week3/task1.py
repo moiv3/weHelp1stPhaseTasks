@@ -1,13 +1,11 @@
 #urllib.request for requesting data
 #json for 觀察輸入的格式是json format
 #csv for csv inout/output, re for Regex support("findall" function)
-import urllib.request, json,csv, re
+import urllib.request, json, csv, re
 
 #python task => need to read from a network location?
 
 #key data in assignment-1 file: stitle(景點名), info(帶"捷運站名"的描述文字), lat/long(經緯度), filelist(jpg圖片與...一些mp3/flv?) & others
-#with open('taipei-attractions-assignment-1', 'r', encoding='UTF-8') as attraction1File:
-    #data1 = attraction1File.read()
 url1 = "https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-1"
 req1 = urllib.request.Request(url1)
 res1 = urllib.request.urlopen(req1)
@@ -15,8 +13,6 @@ data1 = res1.read()
 print("Successfully read url:" + url1)
 
 #data in assignment-2 file: 'MRT'(station) & 'address'(中文地址)
-#with open('taipei-attractions-assignment-2', 'r', encoding='UTF-8') as attraction2File:
-    #data2 = attraction2File.read()
 url2 = "https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-2"
 req2 = urllib.request.Request(url2)
 res2 = urllib.request.urlopen(req2)
@@ -68,8 +64,7 @@ with open('mrt.csv', 'a', newline="", encoding='utf-8') as mrt_file:
 
     mrt_writer_object = csv.writer(mrt_file,delimiter=',')
 
-    #TODO:好像沒有處理重複station的狀況!!
-    #利用剛剛建立好的字典的新項目，對於每個捷運站，直接比對景點是否最靠近該捷運站，有的話就加到list裡面
+    #建立一個dict，對於每個景點對應的捷運站加到mrt_dict裡邊
     mrt_dict = {}
     for attraction in parsed_data1['data']['results']:
         try:
@@ -79,6 +74,7 @@ with open('mrt.csv', 'a', newline="", encoding='utf-8') as mrt_file:
         #print (attraction['stitle'],mrt_dict)
     #print (attraction['stitle'],mrt_dict)
 
+    #依照assignment指定的格式輸出這個dict
     for item in mrt_dict:
         station_attraction_list = []
 
@@ -95,17 +91,6 @@ with open('mrt.csv', 'a', newline="", encoding='utf-8') as mrt_file:
 
 print("Parse complete.")
 
-"""
-    for station in parsed_data2['data']:
-        attraction_list = []
-        attraction_list.append(station['MRT'])
-        for attraction in parsed_data1['data']['results']:
-            if station['MRT'] == attraction['MRT']:
-                attraction_list.append(attraction['stitle'])
-        #print(attraction_list)
-        mrt_writer_object.writerow(attraction_list)
-"""
-
 #print(re.findall(r"http.*?(?=http|$)",test1)[0])
 #wanted to use re.split first, then found re.findall
 #https://stackoverflow.com/questions/48672653/split-a-string-but-keep-the-delimiter-in-the-same-resulting-substring-in-python
@@ -119,6 +104,8 @@ print("Parse complete.")
 #In other words, you can call it "end of line anchor", since it anchors a pattern to the end of the line.
 
 """
+    #this is code from an attempt before realizing "SERIAL_NO" can be linked...
+
     #first find the districts of each station
     for station in parsed_data2['data']:
         #只會找出第一個符合的XX區, then add 'district':"XX區" to dict. 前提是"XX區"都有正確地寫(沒有亂寫)，才會parse對
