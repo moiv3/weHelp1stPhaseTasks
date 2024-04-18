@@ -10,38 +10,47 @@ function openPopup() {
     console.log('opened!');
 }
 
-//https://developer.mozilla.org/zh-TW/docs/Web/API/Fetch_API/Using_Fetch
+//Fetch documentation: https://developer.mozilla.org/zh-TW/docs/Web/API/Fetch_API/Using_Fetch
+//Week 3 program starts here
+
+const smallBoxQty = 3;
+const bigBoxQty = 10;
+
 fetch("https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-1")
     .then(function (response) {
     return response.json();
     })
     .then(function (myJson) {
-        console.log(myJson);
+        //console.log(myJson);
 
-        for (i=0;i<3;i++){
-            let smallbox = document.querySelectorAll(".smallbox")[i];
+        //first 3 images to small boxes
+        for (let i=0;i<smallBoxQty;i++){
+            //render text
+            let smallBox = document.querySelectorAll(".smallbox")[i];
             let contentText = document.createTextNode(`${myJson.data.results[i].stitle}`);
-            smallbox.appendChild(contentText);
+            smallBox.appendChild(contentText);
 
-            let smallboxImg = document.querySelectorAll(".smallboximage")[i];
+            //render images
+            let smallBoxImg = document.querySelectorAll(".smallboximage")[i];
             const imgURL = myJson.data.results[i].filelist.split(/(http.*?(?=http|$))/).filter(Boolean); //(https:\/\/\S+?)
-            smallboxImg.src = imgURL[0];
-            console.log(imgURL[0]);
+            smallBoxImg.src = imgURL[0];
             //let contentImg = document.createTextNode(`${imgURL[0]}`);
-            //smallbox.appendChild(contentImg);
+            //smallBox.appendChild(contentImg);
 
         }
-
-        for (j=3;j<13;j++){
-            let bigboxtext = document.querySelectorAll(".text-block-text")[j-3];
+        //next 10 images to big boxes, ignore others
+        for (let j=smallBoxQty;j<(smallBoxQty+bigBoxQty);j++){
+            //render text
+            let bigBoxText = document.querySelectorAll(".text-block-text")[j-smallBoxQty];
             let contentText = document.createTextNode(`${myJson.data.results[j].stitle}`);
-            bigboxtext.appendChild(contentText);
+            bigBoxText.appendChild(contentText);
             
-            let bigboxImg = document.querySelectorAll(".bigboximage")[j-3];
+            //render images
+            let bigBoxImg = document.querySelectorAll(".bigboximage")[j-smallBoxQty];
             const imgURL = myJson.data.results[j].filelist.split(/(http.*?(?=http|$))/).filter(Boolean); //(https:\/\/\S+?)
-            bigboxImg.src = imgURL[0];
+            bigBoxImg.src = imgURL[0];
             //let contentImg = document.createTextNode(`${imgURL[0]}`);
-            //bigboxImg.appendChild(contentImg);
+            //bigBoxImg.appendChild(contentImg);
         }
         
     });
