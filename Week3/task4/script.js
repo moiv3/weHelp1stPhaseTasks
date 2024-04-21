@@ -131,6 +131,6 @@ function createBigBox(index){
     </div><img src="star.svg" class="starimg"></img>`
     */
 
-    bigBoxGroup.appendChild(newBox)
+    bigBoxGroup.appendChild(newBox);
     totalBoxesLoaded++;
 }
