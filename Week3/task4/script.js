@@ -1,13 +1,13 @@
 function closePopup() {
     let popupmenu = document.querySelector('.popupmenu');
     popupmenu.style.display = 'none';
-    console.log('closed!');
+    //console.log('closed!');
 }
 
 function openPopup() {
     let popupmenu = document.querySelector('.popupmenu');
     popupmenu.style.display = 'block';
-    console.log('opened!');
+    //console.log('opened!');
 }
 
 //Fetch documentation: https://developer.mozilla.org/zh-TW/docs/Web/API/Fetch_API/Using_Fetch
@@ -31,11 +31,11 @@ fetch(dataSource)
         tripFile = myJson;
         //console.log(tripFile)
         entries = tripFile.data.results.length;
-        console.log(`Entries: ${entries}`);
+        //console.log(`Entries: ${entries}`);
 
         //first 3 images to small boxes
         for (let i=0;i<smallBoxQty;i++){
-            console.log(i);
+            //console.log(i);
             //render text
             let smallBox = document.querySelectorAll(".smallbox > span")[i];
             smallBox.textContent = myJson.data.results[i].stitle;
@@ -47,7 +47,7 @@ fetch(dataSource)
             //render images
             let smallBoxImg = document.querySelectorAll(".smallboximage")[i];
             const imgURL = myJson.data.results[i].filelist.split(/(http.*?(?=http|$))/).filter(Boolean); //(https:\/\/\S+?)
-            console.log(imgURL);
+            //console.log(imgURL);
             smallBoxImg.src = imgURL[0];
             //let contentImg = document.createTextNode(`${imgURL[0]}`);
             //smallBox.appendChild(contentImg);
