@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 4 Assignment - Member System using FastAPI</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+
+<body>
+    <div class="page-title">歡迎光臨，請輸入帳號密碼</div>
+    <h2>登入系統</h2>
+    <form class="general-form" method="post" onsubmit="return checkboxCheck()" action="/signin">
+        <div>
+            <label for="username">帳號</label>
+            <input type="text" id="username" name="username_name">
+        </div>
+        <div>
+            <label for="password">密碼</label>
+            <input type="text" id="password" name="password_name">
+        </div>
+        <div>
+            <input type="checkbox" id="termsagreed" name="termsagreed_name" value="True">
+            <label for="termsagreed">同意條款</label>
+        </div>
+        <div>
+            <input type="submit" value="登入">
+        </div>
+    </form>
+    <hr/>
+    <h2>計算正整數的平方</h2>
+    <form class="general-form" method="get" onsubmit="return integerCheck()" action="/square">
+        <div>
+            <label for="the_integer">正整數</label>
+            <input type="text" id="the_integer" name="the_integer">
+        </div>
+        <div>
+            <input type="submit" value="計算">
+        </div>
+    </form>
+    <script src="static/script.js"></script>
+</body>
+
+</html>
