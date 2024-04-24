@@ -30,16 +30,15 @@
     </form>
     <hr/>
     <h2>計算正整數的平方</h2>
-    <form class="general-form" method="get" onsubmit="return integerCheck()" action="/square">
+    <form class="general-form" id="square" onsubmit="event.preventDefault(); return integerCheck()">
         <div>
             <label for="the_integer">正整數</label>
             <input type="text" id="the_integer" name="the_integer">
         </div>
         <div>
-            <input type="submit" value="計算">
+            <button type="submit">計算</button>
         </div>
     </form>
-    <div>{{ request }}</div>
     <script src="static/script.js"></script>
 </body>
 

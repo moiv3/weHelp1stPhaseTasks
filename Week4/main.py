@@ -24,25 +24,23 @@ async def index(request: Request, sign_in_state: bool | None = None):
     #html_file = open("index.html", 'r', encoding="utf-8").read()
     #return HTMLResponse(content=html_file, status_code=200)
     #task 3 part
-    print(request.session)
     if "signed_in" not in request.session:
         request.session["signed_in"] = False         
-    print(request.session)
+    #print(request.session)
     #ValueError: context must include a "request" key => TemplateResponse裡面一定要有"request"的key, request: "something" (something不能隨便亂填像"333"的東西，一定要是Request object)
     return templates.TemplateResponse("login.html", {"request": request, "sign_in_state": request.session["signed_in"]})
 
 @app.get("/error")
 async def loginerror(request: Request, message: str | None = None):
-    for k in request:
-        print(k,request[k])
     return templates.TemplateResponse("loginerror.html", {"request": request, "message": message})
 
 @app.get("/member")
 async def loginsuccess(request: Request):
-    for k in request:
-        print(k,request[k])
-    if request.session["signed_in"] == False:
-        print("Access without login state detected!")
+    if "signed_in" not in request.session:
+        #print("Session has no sign_in info, redirecting to login form...")
+        return RedirectResponse("/")
+    elif request.session["signed_in"] == False:
+        #print("Access without login state detected!")
         return RedirectResponse("/")
     else:
         return templates.TemplateResponse("loginsuccess.html", {"request": request, "sign_in_state": request.session["signed_in"]})
@@ -50,8 +48,6 @@ async def loginsuccess(request: Request):
 #POST跟GET的不同?
 @app.post("/signin")
 async def check_credentials(request: Request, username_name: str | None = Form(...), password_name: str | None = Form(...), termsagreed_name: bool = Form(False)):
-    for k in request:
-        print(k,request[k])
     if username_name == "test" and password_name == "test":
         request.session["signed_in"] = True
         #print(request.session)
@@ -63,23 +59,20 @@ async def check_credentials(request: Request, username_name: str | None = Form(.
 
 @app.get("/signout")
 async def signout(request: Request):
-    for k in request:
-        print(k,request[k])
-    print(request.session)
+    #print(request.session)
     request.session["signed_in"] = False
-    print(request.session)
+    #print(request.session)
     return RedirectResponse("/")
 
+#get method
+#changed to javascript version per assignment task 4 spec 3
+"""
 @app.get("/square")
-async def square(request: Request, the_integer: int):     
-    for k in request:
-        print(k,request[k])   
-    print(request.session, the_integer)
-    #TODO:確認一下有沒有別的做法!
+async def square(request: Request, the_integer: int):
+    #print(request.session, the_integer)
     return RedirectResponse(f"/square/{the_integer}")
+"""
 
 @app.get("/square/{the_integer}")
 async def print_square(request: Request, the_integer: int):
-    for k in request:
-        print(k,request[k])  
-    return templates.TemplateResponse("square.html", {"request": request, "the_integer": the_integer, "result": the_integer ** 2, "sign_in_state": request.session["signed_in"]})
+    return templates.TemplateResponse("square.html", {"request": request, "result": the_integer ** 2})
