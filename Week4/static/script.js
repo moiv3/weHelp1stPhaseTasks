@@ -49,19 +49,19 @@ function integerCheck(){
     if (isNaN(theInteger) === true){
         //is string
         alert("Please enter a positive number.");
-        console.log("catch1");
+        //console.log("catch1");
         return false;
     }
     else if (parseInt(theInteger) <= 0){
         //smaller than zero
         alert("Please enter a positive number.");
-        console.log("catch2");
+        //console.log("catch2");
         return false;
     }
     else if (parseInt(theInteger) !== parseFloat(theInteger)){
         //not whole number
         alert("Please enter a positive number.");
-        console.log("catch3");
+        //console.log("catch3");
         return false;
     }
     else{
