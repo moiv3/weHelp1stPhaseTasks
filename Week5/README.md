@@ -35,7 +35,9 @@ Threads: 2  Questions: 165  Slow queries: 0  Opens: 194  Flush tables: 3  Open t
 
 ## Task 2
 
-A table named website was created.
+A database named **website** was created.
+
+A table named **member** in the **website** database was created under specifications in the assignement.
 
 ```SQL
 mySQL>
@@ -51,6 +53,7 @@ PRIMARY KEY (id)
 ```
 
 Output:
+
 ```SQL
 mysql> desc member;
 +----------------+--------------+------+-----+-------------------+-------------------+
@@ -70,6 +73,10 @@ mysql> desc member;
 ## Task 3
 
 ### Subtask 1
+
+One row of "test" and 4 rows of arbitary data were inserted.
+
+```SQL
 mysql> INSERT INTO member (name,username, password)
     -> VALUES("test", "test", "test");
 Query OK, 1 row affected (0.03 sec)
@@ -102,11 +109,19 @@ mysql> SELECT * FROM member;
 |  5 | green  | Green    | lyuse    |              0 | 2024-04-29 17:11:38 |
 +----+--------+----------+----------+----------------+---------------------+
 5 rows in set (0.00 sec)
+```
 
 <Screenshot here>
 
+### Subtask 2
+
+All rows from table **member** are selected.
+
 ### Subtask 3
 
+All rows from table **member** by descending order of time are selected.
+
+```SQL
 mysql> SELECT * FROM member ORDER BY time DESC;
 +----+--------+----------+----------+----------------+---------------------+
 | id | name   | username | password | follower_count | time                |
@@ -119,10 +134,15 @@ mysql> SELECT * FROM member ORDER BY time DESC;
 +----+--------+----------+----------+----------------+---------------------+
 5 rows in set (0.00 sec)
 
+```
+
 <Screenshot here>
 
 ### Subtask 4
 
+The 2nd to 4th rows from table **member** by descending order of time are selected.
+
+```SQL
 mysql> SELECT * FROM member ORDER BY time DESC
     -> LIMIT 3 OFFSET 1;
 +----+--------+----------+----------+----------------+---------------------+
@@ -133,9 +153,13 @@ mysql> SELECT * FROM member ORDER BY time DESC
 |  2 | red    | Red      | hongse   |              0 | 2024-04-29 17:10:00 |
 +----+--------+----------+----------+----------------+---------------------+
 3 rows in set (0.00 sec)
+```
 
 ### Subtask 5
 
+Rows where username = "test" are selected.
+
+```SQL
 mysql> SELECT * from member WHERE username = "test";
 +----+------+----------+----------+----------------+---------------------+
 | id | name | username | password | follower_count | time                |
@@ -143,8 +167,13 @@ mysql> SELECT * from member WHERE username = "test";
 |  1 | test | test     | test     |              0 | 2024-04-29 17:09:09 |
 +----+------+----------+----------+----------------+---------------------+
 1 row in set (0.00 sec)
+```
 
 ### Subtask 6
+
+Rows where name includes "es" are selected.
+
+```SQL
 mysql> SELECT * from member WHERE name LIKE "%es%";
 +----+------+----------+----------+----------------+---------------------+
 | id | name | username | password | follower_count | time                |
@@ -152,8 +181,14 @@ mysql> SELECT * from member WHERE name LIKE "%es%";
 |  1 | test | test     | test     |              0 | 2024-04-29 17:09:09 |
 +----+------+----------+----------+----------------+---------------------+
 1 row in set (0.00 sec)
+```
 
 ### Subtask 7
+
+Rows where both username and password = "test" are selected.
+
+
+```SQL
 mysql> SELECT * from member WHERE username = "test" AND password = "test";
 +----+------+----------+----------+----------------+---------------------+
 | id | name | username | password | follower_count | time                |
@@ -161,8 +196,13 @@ mysql> SELECT * from member WHERE username = "test" AND password = "test";
 |  1 | test | test     | test     |              0 | 2024-04-29 17:09:09 |
 +----+------+----------+----------+----------------+---------------------+
 1 row in set (0.00 sec)
+```
 
 ### Subtask 8
+
+Username "test" was updated to "test2".
+
+```SQL
 mysql> UPDATE member
     -> SET name = "test2"
     -> WHERE username = "test";
@@ -180,12 +220,17 @@ mysql> SELECT * from member;
 |  5 | green  | Green    | lyuse    |              0 | 2024-04-29 17:11:38 |
 +----+--------+----------+----------+----------------+---------------------+
 5 rows in set (0.00 sec)
+```
 
 <Screenshot here>
 
 ## Task 4
 
 ### Subtask 1
+
+The **number of rows** from the member table were selected.
+
+```SQL
 mysql> SELECT COUNT(*) FROM member;
 +----------+
 | COUNT(*) |
@@ -193,8 +238,13 @@ mysql> SELECT COUNT(*) FROM member;
 |        5 |
 +----------+
 1 row in set (0.01 sec)
+```
 
 ### Subtask 2
+
+The **sum of follower_count** of all rows were selected.
+
+```SQL
 mysql> SELECT SUM(follower_count) FROM member;
 +---------------------+
 | SUM(follower_count) |
@@ -202,8 +252,13 @@ mysql> SELECT SUM(follower_count) FROM member;
 |                2483 |
 +---------------------+
 1 row in set (0.00 sec)
+```
 
 ### Subtask 3
+
+The **average of follower_count** of all rows were selected.
+
+```SQL
 mysql> SELECT AVG(follower_count) FROM member;
 +---------------------+
 | AVG(follower_count) |
@@ -211,8 +266,13 @@ mysql> SELECT AVG(follower_count) FROM member;
 |            496.6000 |
 +---------------------+
 1 row in set (0.00 sec)
+```
 
 ### Subtask 4
+
+The **average of follower_count** of the first 2 rows, in descending order of follower_count from the member table were selected.
+
+```SQL
 mysql> SELECT AVG(follower_count_subset) FROM (SELECT follower_count AS follower_count_subset FROM member ORDER BY follower_count DESC LIMIT 2) as follower_count_avg;
 +----------------------------+
 | AVG(follower_count_subset) |
@@ -220,11 +280,15 @@ mysql> SELECT AVG(follower_count_subset) FROM (SELECT follower_count AS follower
 |                  1207.0000 |
 +----------------------------+
 1 row in set (0.00 sec)
+```
 
 ## Task 5
 
 ### Subtask 1
 
+A new table named **message** in the **website** database was created.
+
+```SQL
 mysql> CREATE TABLE message(
     -> id BIGINT AUTO_INCREMENT,
     -> member_id BIGINT NOT NULL,
@@ -263,10 +327,12 @@ mysql> desc message;
 | time       | datetime     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
 +------------+--------------+------+-----+-------------------+-------------------+
 5 rows in set (0.00 sec)
-
+```
 <Screenshot here>
 
 ### Adding Data into TABLE "message"
+
+```SQL
 mysql> INSERT INTO message(member_id, content, like_count)
     -> VALUES(1, "我年紀還輕，閱歷不深的時候，",10)
     -> ;
@@ -336,8 +402,13 @@ mysql> SELECT * FROM message;
 | 10 |         1 | 也使我成為不少愛嘮叨的惹人厭煩的人的受害者。                                                                 |        100 | 2024-04-30 11:08:33 |
 +----+-----------+--------------------------------------------------------------------------------------------------------------+------------+---------------------+
 10 rows in set (0.00 sec)
+```
 
 ### Subtask 2
+
+All message text including sender names were selected.
+
+```SQL
 mysql> SELECT * FROM member;
 +----+--------+----------+----------+----------------+---------------------+
 | id | name   | username | password | follower_count | time                |
@@ -369,8 +440,13 @@ mysql> SELECT message.content, member.name
 | 但是，我們父子之間話雖不多，                                                                                 | Green  |
 +--------------------------------------------------------------------------------------------------------------+--------+
 10 rows in set (0.00 sec)
+```
 
 ### Subtask 3
+
+All message text including sender names with (username = "test") were selected.
+
+```SQL
 mysql> SELECT message.content, member.name
     -> FROM message
     -> JOIN member
@@ -385,9 +461,13 @@ mysql> SELECT message.content, member.name
 | 也使我成為不少愛嘮叨的惹人厭煩的人的受害者。                       | test2 |
 +--------------------------------------------------------------------+-------+
 4 rows in set (0.00 sec)
+```
 
 ### Subtask 4
 
+The average like count of messages where (username = "test") was calculated.
+
+```SQL
 mysql> SELECT AVG(message.like_count)
     -> FROM message
     -> JOIN member
@@ -414,8 +494,13 @@ mysql> SELECT message.content, message.like_count, member.name
 | 也使我成為不少愛嘮叨的惹人厭煩的人的受害者。                       |        100 | test2 |
 +--------------------------------------------------------------------+------------+-------+
 4 rows in set (0.00 sec)
+```
 
 ### Subtask 5
+
+The average like count of messages was calculated and grouped by sender username.
+
+```SQL
 mysql> SELECT AVG(message.like_count), member.username
     -> FROM message
     -> JOIN member
@@ -431,3 +516,26 @@ mysql> SELECT AVG(message.like_count), member.username
 |                 60.0000 | green    |
 +-------------------------+----------+
 5 rows in set (0.00 sec)
+```
+
+## Final steps:
+
+### Final steps 1: Exporting the database
+
+The database was exported by mysqldump (outside of the MySQL command-line client) to **data.sql**.
+
+```bat
+Microsoft Windows [版本 10.0.22631.3447]
+(c) Microsoft Corporation. 著作權所有，並保留一切權利。
+
+C:\Windows\System32>cd C:\Program Files\MySQL\MySQL Server 8.3\bin
+
+C:\Program Files\MySQL\MySQL Server 8.3\bin>mysqldump -u root -p website > data.sql
+Enter password: ***
+
+C:\Program Files\MySQL\MySQL Server 8.3\bin>
+```
+
+### Final steps 2: Writing the process to README.md
+
+This file is the result of the writeup.
