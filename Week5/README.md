@@ -182,3 +182,252 @@ mysql> SELECT * from member;
 5 rows in set (0.00 sec)
 
 <Screenshot here>
+
+## Task 4
+
+### Subtask 1
+mysql> SELECT COUNT(*) FROM member;
++----------+
+| COUNT(*) |
++----------+
+|        5 |
++----------+
+1 row in set (0.01 sec)
+
+### Subtask 2
+mysql> SELECT SUM(follower_count) FROM member;
++---------------------+
+| SUM(follower_count) |
++---------------------+
+|                2483 |
++---------------------+
+1 row in set (0.00 sec)
+
+### Subtask 3
+mysql> SELECT AVG(follower_count) FROM member;
++---------------------+
+| AVG(follower_count) |
++---------------------+
+|            496.6000 |
++---------------------+
+1 row in set (0.00 sec)
+
+### Subtask 4
+mysql> SELECT AVG(follower_count_subset) FROM (SELECT follower_count AS follower_count_subset FROM member ORDER BY follower_count DESC LIMIT 2) as follower_count_avg;
++----------------------------+
+| AVG(follower_count_subset) |
++----------------------------+
+|                  1207.0000 |
++----------------------------+
+1 row in set (0.00 sec)
+
+## Task 5
+
+### Subtask 1
+
+mysql> CREATE TABLE message(
+    -> id BIGINT AUTO_INCREMENT,
+    -> member_id BIGINT NOT NULL,
+    -> content VARCHAR(255) NOT NULL,
+    -> like_count INT UNSIGNED DEFAULT 0 NOT NULL,
+    -> time DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    -> PRIMARY KEY(id)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc message;
++------------+--------------+------+-----+-------------------+-------------------+
+| Field      | Type         | Null | Key | Default           | Extra             |
++------------+--------------+------+-----+-------------------+-------------------+
+| id         | bigint       | NO   | PRI | NULL              | auto_increment    |
+| member_id  | bigint       | NO   |     | NULL              |                   |
+| content    | varchar(255) | NO   |     | NULL              |                   |
+| like_count | int unsigned | NO   |     | 0                 |                   |
+| time       | datetime     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++------------+--------------+------+-----+-------------------+-------------------+
+5 rows in set (0.01 sec)
+
+mysql> ALTER TABLE message
+    -> ADD FOREIGN KEY (member_id) REFERENCES member(id);
+Query OK, 0 rows affected (0.12 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc message;
++------------+--------------+------+-----+-------------------+-------------------+
+| Field      | Type         | Null | Key | Default           | Extra             |
++------------+--------------+------+-----+-------------------+-------------------+
+| id         | bigint       | NO   | PRI | NULL              | auto_increment    |
+| member_id  | bigint       | NO   | MUL | NULL              |                   |
+| content    | varchar(255) | NO   |     | NULL              |                   |
+| like_count | int unsigned | NO   |     | 0                 |                   |
+| time       | datetime     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++------------+--------------+------+-----+-------------------+-------------------+
+5 rows in set (0.00 sec)
+
+<Screenshot here>
+
+### Adding Data into TABLE "message"
+mysql> INSERT INTO message(member_id, content, like_count)
+    -> VALUES(1, "我年紀還輕，閱歷不深的時候，",10)
+    -> ;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO message(member_id, content, like_count)
+    -> VALUES(1, "我父親教導過我一句話，我至今還念念不忘。",20);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM message;
++----+-----------+--------------------------------------------------------------+------------+---------------------+
+| id | member_id | content                                                      | like_count | time                |
++----+-----------+--------------------------------------------------------------+------------+---------------------+
+|  1 |         1 | 我年紀還輕，閱歷不深的時候，                                 |         10 | 2024-04-30 11:04:41 |
+|  2 |         1 | 我父親教導過我一句話，我至今還念念不忘。                     |         20 | 2024-04-30 11:05:14 |
++----+-----------+--------------------------------------------------------------+------------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO message(member_id, content, like_count)
+    -> VALUES(2,「每逢你想要批評任何人的時候，」他對我說，,30);
+ERROR 1054 (42S22): Unknown column '「每逢你想要批評任何人的時候，」他對我說，' in 'field list'
+mysql> INSERT INTO message(member_id, content, like_count)
+    -> VALUES(2,"「每逢你想要批評任何人的時候，」他對我說，",30);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO message(member_id, content, like_count)
+    -> VALUES(3,"「你就記住，這個世界上所有的人，並不是個個都有過你擁有的那些優越條件。」",40);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO message(member_id, content, like_count)
+    -> VALUES(1,"他沒再說別的。",50);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO message(member_id, content, like_count)
+    -> VALUES(5,"但是，我們父子之間話雖不多，",60);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO message(member_id, content, like_count)
+    -> VALUES(4,"卻一向許多事情是特別會意的，因此我明白他的話大有弦外之音。",70);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO message(member_id, content, like_count)
+    -> VALUES(4,"久而久之，我就慣於對所有的人都保留判斷，",80);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO message(member_id, content, like_count)
+    -> VALUES(3,"這個習慣既使得許多有怪僻的人肯跟我講心裡話，",90);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO message(member_id, content, like_count)
+    -> VALUES(1,"也使我成為不少愛嘮叨的惹人厭煩的人的受害者。",100);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM message;
++----+-----------+--------------------------------------------------------------------------------------------------------------+------------+---------------------+
+| id | member_id | content                                                                                                      | like_count | time                |
++----+-----------+--------------------------------------------------------------------------------------------------------------+------------+---------------------+
+|  1 |         1 | 我年紀還輕，閱歷不深的時候，                                                                                 |         10 | 2024-04-30 11:04:41 |
+|  2 |         1 | 我父親教導過我一句話，我至今還念念不忘。                                                                     |         20 | 2024-04-30 11:05:14 |
+|  3 |         2 | 「每逢你想要批評任何人的時候，」他對我說，                                                                   |         30 | 2024-04-30 11:06:01 |
+|  4 |         3 | 「你就記住，這個世界上所有的人，並不是個個都有過你擁有的那些優越條件。」                                     |         40 | 2024-04-30 11:06:18 |
+|  5 |         1 | 他沒再說別的。                                                                                               |         50 | 2024-04-30 11:06:46 |
+|  6 |         5 | 但是，我們父子之間話雖不多，                                                                                 |         60 | 2024-04-30 11:07:06 |
+|  7 |         4 | 卻一向許多事情是特別會意的，因此我明白他的話大有弦外之音。                                                   |         70 | 2024-04-30 11:07:29 |
+|  8 |         4 | 久而久之，我就慣於對所有的人都保留判斷，                                                                     |         80 | 2024-04-30 11:07:49 |
+|  9 |         3 | 這個習慣既使得許多有怪僻的人肯跟我講心裡話，                                                                 |         90 | 2024-04-30 11:08:11 |
+| 10 |         1 | 也使我成為不少愛嘮叨的惹人厭煩的人的受害者。                                                                 |        100 | 2024-04-30 11:08:33 |
++----+-----------+--------------------------------------------------------------------------------------------------------------+------------+---------------------+
+10 rows in set (0.00 sec)
+
+### Subtask 2
+mysql> SELECT * FROM member;
++----+--------+----------+----------+----------------+---------------------+
+| id | name   | username | password | follower_count | time                |
++----+--------+----------+----------+----------------+---------------------+
+|  1 | test2  | test     | test     |             50 | 2024-04-29 17:09:09 |
+|  2 | Red    | red      | hongse   |            390 | 2024-04-29 17:10:00 |
+|  3 | Orange | orange   | chengse  |             17 | 2024-04-29 17:10:39 |
+|  4 | Yellow | yellow   | huangse  |              2 | 2024-04-29 17:11:15 |
+|  5 | Green  | green    | lyuse    |           2024 | 2024-04-29 17:11:38 |
++----+--------+----------+----------+----------------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT message.content, member.name
+    -> FROM message
+    -> JOIN member
+    -> ON message.member_id = member.id;
++--------------------------------------------------------------------------------------------------------------+--------+
+| content                                                                                                      | name   |
++--------------------------------------------------------------------------------------------------------------+--------+
+| 我年紀還輕，閱歷不深的時候，                                                                                 | test2  |
+| 我父親教導過我一句話，我至今還念念不忘。                                                                     | test2  |
+| 他沒再說別的。                                                                                               | test2  |
+| 也使我成為不少愛嘮叨的惹人厭煩的人的受害者。                                                                 | test2  |
+| 「每逢你想要批評任何人的時候，」他對我說，                                                                   | Red    |
+| 「你就記住，這個世界上所有的人，並不是個個都有過你擁有的那些優越條件。」                                     | Orange |
+| 這個習慣既使得許多有怪僻的人肯跟我講心裡話，                                                                 | Orange |
+| 卻一向許多事情是特別會意的，因此我明白他的話大有弦外之音。                                                   | Yellow |
+| 久而久之，我就慣於對所有的人都保留判斷，                                                                     | Yellow |
+| 但是，我們父子之間話雖不多，                                                                                 | Green  |
++--------------------------------------------------------------------------------------------------------------+--------+
+10 rows in set (0.00 sec)
+
+### Subtask 3
+mysql> SELECT message.content, member.name
+    -> FROM message
+    -> JOIN member
+    -> ON message.member_id = member.id
+    -> WHERE member.username = "test";
++--------------------------------------------------------------------+-------+
+| content                                                            | name  |
++--------------------------------------------------------------------+-------+
+| 我年紀還輕，閱歷不深的時候，                                       | test2 |
+| 我父親教導過我一句話，我至今還念念不忘。                           | test2 |
+| 他沒再說別的。                                                     | test2 |
+| 也使我成為不少愛嘮叨的惹人厭煩的人的受害者。                       | test2 |
++--------------------------------------------------------------------+-------+
+4 rows in set (0.00 sec)
+
+### Subtask 4
+
+mysql> SELECT AVG(message.like_count)
+    -> FROM message
+    -> JOIN member
+    -> ON message.member_id = member.id
+    -> WHERE member.username = "test";
++-------------------------+
+| AVG(message.like_count) |
++-------------------------+
+|                 45.0000 |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT message.content, message.like_count, member.name
+    -> FROM message
+    -> JOIN member
+    -> ON message.member_id = member.id
+    -> WHERE member.username = "test";
++--------------------------------------------------------------------+------------+-------+
+| content                                                            | like_count | name  |
++--------------------------------------------------------------------+------------+-------+
+| 我年紀還輕，閱歷不深的時候，                                       |         10 | test2 |
+| 我父親教導過我一句話，我至今還念念不忘。                           |         20 | test2 |
+| 他沒再說別的。                                                     |         50 | test2 |
+| 也使我成為不少愛嘮叨的惹人厭煩的人的受害者。                       |        100 | test2 |
++--------------------------------------------------------------------+------------+-------+
+4 rows in set (0.00 sec)
+
+### Subtask 5
+mysql> SELECT AVG(message.like_count), member.username
+    -> FROM message
+    -> JOIN member
+    -> ON message.member_id = member.id
+    -> GROUP BY member.username;
++-------------------------+----------+
+| AVG(message.like_count) | username |
++-------------------------+----------+
+|                 45.0000 | test     |
+|                 30.0000 | red      |
+|                 65.0000 | orange   |
+|                 75.0000 | yellow   |
+|                 60.0000 | green    |
++-------------------------+----------+
+5 rows in set (0.00 sec)
