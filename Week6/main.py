@@ -27,8 +27,6 @@ app.add_middleware(SessionMiddleware, secret_key=session_secret_key, max_age=Non
 #mount the static files. without this css and js don't work
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-#TODO: try cookies instead of request.session?
-
 @app.get("/")
 # main page renders login.html template.
 async def index(request: Request):
@@ -120,7 +118,7 @@ async def signout(request: Request):
         del request.session["member_id"], request.session["username"], request.session["name"]
         return RedirectResponse("/")
     else:
-        #print("/signout was visited but no signin state found.")
+        #print("/signout endpoint was visited but no signin state found.")
         return RedirectResponse("/")
 
 

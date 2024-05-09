@@ -36,6 +36,8 @@ function messageFormFullyEntered(){
     }
 }
 
+//this function is not used, changed to built-in confirm() function from assignment requirement.
+/*
 function confirmDelete(){
     if (window.confirm("Do you really want to delete this message?")){
         return true;
@@ -44,3 +46,4 @@ function confirmDelete(){
         return false;
     }
 }
+*/
