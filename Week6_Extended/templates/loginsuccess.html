@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Member Page] Week 6 Assignment - Message Board System using FastAPI, MySQL and Python</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+
+<body>
+    <div class="page-title">歡迎光臨，這是會員頁</div>
+    <h2 class="general-form">{{ member_name }}，歡迎登入系統</h2>
+    <a href="/signout" class="general-form">登出系統</a>
+
+    <hr/>
+
+    <h2 class="general-form">快來留言吧！</h2>
+    <form class="general-form" id="messageboard" method="post" onsubmit="return messageFormFullyEntered()" action="/createMessage">
+        <div>
+            <label for="the_integer">內容</label>
+            <input type="text" id="new_message" name="new_message_name">
+        </div>
+        <div>
+            <button type="submit">送出</button>
+        </div>
+    </form>
+
+    <hr/>
+
+    <ul id="messages">
+        {% for item in messages %}
+            <li><b>{{ item[0] }}</b> 說： {{ item[1] }}
+                {% if member_id == item[2] %}
+                    <form id="deletebutton" method="post" onsubmit="return confirm('Do you really want to delete this message?')" action="/deleteMessage" style="display: inline;">
+                        <button name="post_id" value={{ item[3] }}>Delete</button>
+                        <a href="/update?post_id={{ item[3] }}">Edit message</a>
+                    </form>
+                {% endif %}</li>
+        {% endfor %}
+    </ul>
+</body>
+
+<script src="static/script.js"></script>
+
+</html>

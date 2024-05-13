@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Update Message Page] Week 6 Assignment - Message Board System using FastAPI, MySQL and Python</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+
+<body>
+    <div class="page-title">修改留言</div>
+    <h2 class="general-form">原本留言內容：{{ message[1] }}</h2>
+    <form class="general-form" id="messageboard" method="post" onsubmit="return messageFormFullyEntered()" action="/updateMessage">
+        <div>
+            <label for="the_integer">修改為：</label>
+            <input type="text" id="new_message" name="updated_message_name">
+            <input type="hidden" name="message_id" value="{{ message[3] }}" />
+        </div>
+        <div>
+            <button type="submit">送出</button>
+        </div>
+    </form>
+
+    <hr/>
+
+    <ul id="messages">
+        {% for item in messages %}
+            <li><b>{{ item[0] }}</b> 說： {{ item[1] }}
+                {% if member_id == item[2] %}
+                    <form id="deletebutton" method="post" onsubmit="return confirm('Do you really want to delete this message?')" action="/deleteMessage" style="display: inline;">
+                        <button name="post_id" value={{ item[3] }}>Delete</button>
+                        <a href="/update">Edit message</a>
+                    </form>
+                {% endif %}</li>
+        {% endfor %}
+    </ul>
+</body>
+
+<script src="static/script.js"></script>
+
+</html>
