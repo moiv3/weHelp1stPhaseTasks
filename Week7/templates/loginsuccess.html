@@ -43,7 +43,7 @@
     <hr/>
 
     <h2 class="general-form">更改自己的姓名</h2>
-    <form class="general-form" id="patchusernameform" method="post">
+    <form class="general-form" id="patchusernameform" method="post" onsubmit="return onPatchFormSubmitted(event);">
         <div>
             <label for="new_username_id">新的顯示姓名</label>
             <input type="text" id="new_username_id" name="new_username">

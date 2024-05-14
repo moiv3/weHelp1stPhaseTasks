@@ -69,10 +69,11 @@ if (fetchUserdataForm){
     });
 }
 
-patchUsernameForm = document.querySelector('#patchusernameform');
-patchUsernameForm.addEventListener('submit', onPatchFormSubmitted);
+//patchUsernameForm = document.querySelector('#patchusernameform');
+//patchUsernameForm.addEventListener('submit', onPatchFormSubmitted);
 
 function onPatchFormSubmitted(event) {
+    console.log("entering!");
     event.preventDefault();
     if (!confirm('This changes your profile naMMMme. Do you wish to continue?')){
         return false;
@@ -105,7 +106,7 @@ function onPatchFormSubmitted(event) {
         else{
             console.log("Weird thigs happened, check backend code")
             resultText = document.querySelector("#displaynameeditresult");
-            resultText.innerHTML = "修改過程中遇到其他錯誤"
+            resultText.innerHTML = "修改過程中遇到其他錯誤" //還沒有實際碰到
         }
         return data;
     })
