@@ -50,3 +50,35 @@ def checkPalindrome(s):
             return False
     return True
 print(checkPalindrome("AAABA"))
+
+def calculate(n1, n2, op):
+    import math
+    # 你的程式碼
+    if op == "+":
+        return n1 + n2
+    elif op == "-":
+        return n1 - n2
+    elif op == "*":
+        return n1 * n2
+    elif op == "/":
+        return math.floor(n1/n2)
+
+
+def snakeToUpperCamel(name):
+    output_string = ""
+    flag = 0
+    for i in range(len(name)):
+        if i == 0:
+            output_string += name[i].upper()
+            print(output_string)
+        elif flag == 1:
+            output_string += name[i].upper()
+            flag = 0
+        elif name[i] == "_":
+            flag = 1
+        else:
+            output_string += name[i]
+
+    return output_string
+
+print(snakeToUpperCamel("agh_jhj_ksk"))

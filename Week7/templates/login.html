@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Home Page] Week 6 Assignment - Message Board System using FastAPI, MySQL and Python</title>
+    <title>[Home Page] Week 7 Assignment - Frontend and Backend Separation</title>
     <link rel="stylesheet" href="static/styles.css">
 </head>
 
@@ -13,15 +13,15 @@
     <h2>註冊帳號</h2>
     <form class="general-form" method="post" onsubmit="return signupFormFullyEntered()" action="/signup">
         <div>
-            <label for="name">姓名</label>
+            <label for="signup_name">姓名</label>
             <input type="text" id="signup_name" name="signup_name_text">
         </div>
         <div>
-            <label for="username">帳號</label>
+            <label for="signup_username">帳號</label>
             <input type="text" id="signup_username" name="signup_username_text">
         </div>
         <div>
-            <label for="password">密碼</label>
+            <label for="signup_password">密碼</label>
             <input type="password" id="signup_password" name="signup_password_text">
         </div>
         <div>
@@ -32,11 +32,11 @@
     <h2>登入系統</h2>
     <form class="general-form" method="post" onsubmit="return signinFormFullyEntered()" action="/signin">
         <div>
-            <label for="username">帳號</label>
+            <label for="signin_username">帳號</label>
             <input type="text" id="signin_username" name="signin_username_text">
         </div>
         <div>
-            <label for="password">密碼</label>
+            <label for="signin_password">密碼</label>
             <input type="password" id="signin_password" name="signin_password_text">
         </div>
         <div>

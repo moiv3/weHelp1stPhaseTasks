@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Member Page] Week 6 Assignment - Message Board System using FastAPI, MySQL and Python</title>
+    <title>[Member Page] Week 7 Assignment - Frontend and Backend Separation</title>
     <link rel="stylesheet" href="static/styles.css">
 </head>
 
@@ -18,12 +18,40 @@
     <h2 class="general-form">快來留言吧！</h2>
     <form class="general-form" id="messageboard" method="post" onsubmit="return messageFormFullyEntered()" action="/createMessage">
         <div>
-            <label for="the_integer">內容</label>
+            <label for="new_message">內容</label>
             <input type="text" id="new_message" name="new_message_name">
         </div>
         <div>
             <button type="submit">送出</button>
         </div>
+    </form>
+
+    <hr/>
+
+    <h2 class="general-form">使用username查查看有沒有對應的帳號</h2>
+    <form class="general-form" id="fetchuserdataform" method="get" onsubmit="">
+        <div>
+            <label for="username_id">想查詢的username</label>
+            <input type="text" id="username_id" name="username_name">
+        </div>
+        <div>
+            <button type="submit">送出</button>
+        </div>
+    </form>
+    <h2 class="user-search-result">查詢結果：</h2>
+
+    <hr/>
+
+    <h2 class="general-form">更改自己的姓名</h2>
+    <form class="general-form" id="patchusernameform" method="post">
+        <div>
+            <label for="new_username_id">新的顯示姓名</label>
+            <input type="text" id="new_username_id" name="new_username">
+        </div>
+        <div>
+            <button type="submit">更改</button>
+        </div>
+        <div class="centered-general-text" id="displaynameeditresult"></div>
     </form>
 
     <hr/>

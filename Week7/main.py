@@ -1,10 +1,16 @@
 from fastapi import FastAPI, Request, Form, status
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, JSONResponse
 from starlette.middleware.sessions import SessionMiddleware
+from pydantic import BaseModel
 
-import mysql.connector
+import mysql.connector, json
+
+
+
+class NewUsername(BaseModel):
+    name: str
 
 #database parameters
 db_host="localhost"
@@ -17,6 +23,17 @@ session_secret_key="RAGEfeatH14ofLEONAIR"
 
 #Templates - FastAPI https://fastapi.tiangolo.com/advanced/templates/ & https://fastapi.tiangolo.com/reference/templating/
 templates = Jinja2Templates(directory="templates")
+
+def update_request_session(session):
+    website_db = mysql.connector.connect(host=db_host,user=db_user,password=db_pw,database=db_database)
+    website_db_cursor = website_db.cursor()
+
+    cmd = "SELECT id, username, password, name FROM member WHERE username = %s"
+    website_db_cursor.execute(cmd,(session["username"],))
+    website_db_result = website_db_cursor.fetchone()
+    session["member_id"] = website_db_result[0]
+    session["username"] = website_db_result[1]
+    session["name"] = website_db_result[3]
 
 #creates a webapp
 app = FastAPI()
@@ -42,14 +59,18 @@ async def member(request: Request):
     if "member_id" not in request.session or request.session["member_id"] == None:
         return RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)  
     else:
+        #update user display name
+        update_request_session(request.session)
+        
         website_db = mysql.connector.connect(host=db_host,user=db_user,password=db_pw,database=db_database)
-
+        
         #sql queries
         website_db_cursor = website_db.cursor()
         #member id & message id for task 6
         cmd = "SELECT member.name, message.content, member.id, message.id FROM message JOIN member ON message.member_id = member.id"
         website_db_cursor.execute(cmd)
         website_db_result = website_db_cursor.fetchall()
+        
         return templates.TemplateResponse("loginsuccess.html", {"request": request,
                                                                 "member_id": request.session["member_id"],
                                                                 "member_name": request.session["name"],
@@ -101,9 +122,12 @@ async def signin(request: Request, signin_username_text: str | None = Form(None)
     if website_db_result == None:
         return RedirectResponse("/error?message=User not found!", status_code=status.HTTP_303_SEE_OTHER)
     elif signin_password_text == website_db_result[2]:
+        print(request.session)
+        #update_request_session(request.session)
         request.session["member_id"] = website_db_result[0]
         request.session["username"] = website_db_result[1]
         request.session["name"] = website_db_result[3]
+        print(request.session)
         #print("User", request.session["username"], "signed in.")
         return RedirectResponse("/member", status_code=status.HTTP_303_SEE_OTHER)
 
@@ -148,6 +172,63 @@ async def delete_message(request: Request, post_id: int | None = Form(None)):
     #print("Deleted message!")
     return RedirectResponse("/member", status_code=status.HTTP_303_SEE_OTHER)
 
+@app.get("/api/member")
+# main page renders login.html template.
+async def query_member_api(request: Request, username: str):
+    #if all(item in request.session for item in ("member_id", "username", "name")):
+    #    print(request.session["member_id"],request.session["username"],request.session["name"])
+    #else:
+    #    print("nothing inside request.session")
+    flag=1
+    if "member_id" not in request.session or request.session["member_id"] == None:
+        result_dict={"data":None}
+        return JSONResponse(content=result_dict)
+    else:
+        website_db = mysql.connector.connect(host=db_host,user=db_user,password=db_pw,database=db_database)    
+        website_db_cursor = website_db.cursor()
+    
+        cmd = "SELECT id, username, name FROM member WHERE username = %s"
+        website_db_cursor.execute(cmd,(username,))
+        website_db_result = website_db_cursor.fetchone()
+        if website_db_result != None:
+            result_dict={"data":{"member_id":None,"username":None,"name":None}}
+            result_dict["data"]["member_id"] = website_db_result[0]
+            result_dict["data"]["username"] = website_db_result[1]
+            result_dict["data"]["name"] = website_db_result[2]
+            print(json.dumps(result_dict))
+            return JSONResponse(content=result_dict)
+        else:
+            result_dict={"data":None}
+            return JSONResponse(content=result_dict)
+
+
+    #return templates.TemplateResponse("login.html", {"request": request})
+
+@app.patch("/api/member")
+async def username_change_api(request: Request, new_username: NewUsername):
+    print(new_username)
+    print(new_username.name)
+    if "member_id" not in request.session or request.session["member_id"] == None:
+        result_dict={"error":True}
+        return JSONResponse(content=result_dict)
+    else:
+        try:
+            website_db = mysql.connector.connect(host=db_host,user=db_user,password=db_pw,database=db_database)    
+            website_db_cursor = website_db.cursor()
+            cmd = "UPDATE member SET name = %s WHERE id = %s"
+            website_db_cursor.execute(cmd,(new_username.name,request.session["member_id"]))
+            website_db.commit()
+            result_dict={"ok":True}
+            return JSONResponse(content=result_dict)
+        except Exception as error:
+            print(error)
+            result_dict={"error":True}
+            return JSONResponse(content=result_dict)
+
+
+
+
+    #return RedirectResponse("/error?message=有成功連過來!",status_code=303)
 
 """
 DB Schemas:
