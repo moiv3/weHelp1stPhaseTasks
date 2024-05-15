@@ -1,10 +1,8 @@
-# Week 6 Assignment Readme
+# Week 7 Assignment Readme
 
-## This is the Github Repository of Week 6 Assignment.
+## This is the Github Repository of Week 7 Assignment.
 
-A simple message board system supporting CRUD. (without the U. Trying to develop that this week!).
-
-Tools used: FastAPI, MySQL
+Some more using of Fetch API and writing a response body.
 
 ## Features
 
@@ -27,6 +25,14 @@ User can leave a text message on the Member Page.
 The Member Page shows all messages stored in the database from oldest to newest.
 
 By clicking the "Delete" button next to a signed-in user's post, user can delete his/her message.
+
+### 4. (Week7 new feature) Username and display search
+
+Signed-in users can search for other users' names by inputting username.
+
+### 5. (Week7 new feature) Display name update
+
+Signed-in users can update their own display name.
 
 ## Back-end Logic Checks
 

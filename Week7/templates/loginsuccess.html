@@ -28,34 +28,35 @@
 
     <hr/>
 
-    <h2 class="general-form">使用username查查看有沒有對應的帳號</h2>
-    <form class="general-form" id="fetchuserdataform" method="get" onsubmit="">
+    <div class="centered-general-text" id="user_search_div">
+    <h2 class="general-form">查詢會員姓名</h2>
+    <form class="general-form" id="fetchuserdataform" method="get" onsubmit="return onSearchFormSubmitted(event);">
         <div>
-            <label for="username_id">想查詢的username</label>
-            <input type="text" id="username_id" name="username_name">
-        </div>
-        <div>
-            <button type="submit">送出</button>
+            <label for="username_id"></label>
+            <input type="text" id="username_id" name="username_name"> 
+            <button type="submit">查詢</button>
         </div>
     </form>
-    <h2 class="user-search-result">查詢結果：</h2>
+    <div class="centered-general-text" id="user_search_result"></div>
+    </div>
 
     <hr/>
 
-    <h2 class="general-form">更改自己的姓名</h2>
-    <form class="general-form" id="patchusernameform" method="post">
+    <div class="centered-general-text" id="user_patch_div">
+    <h2 class="general-form">更新我的姓名</h2>
+    <form class="general-form" id="patchusernameform" method="post" onsubmit="return onPatchFormSubmitted(event);">
         <div>
-            <label for="new_username_id">新的顯示姓名</label>
-            <input type="text" id="new_username_id" name="new_username">
-        </div>
-        <div>
-            <button type="submit">更改</button>
-        </div>
-        <div class="centered-general-text" id="displaynameeditresult"></div>
+            <label for="new_username_id"></label>
+            <input type="text" id="new_username_id" name="new_username"> 
+            <button type="submit">更新</button>
+        </div>        
     </form>
+    <div class="centered-general-text" id="name_edit_result"></div>
+    </div>
 
     <hr/>
 
+    <h2 class="general-form">大家的留言板</h2>
     <ul id="messages">
         {% for item in messages %}
             <li><b>{{ item[0] }}</b> 說： {{ item[1] }}

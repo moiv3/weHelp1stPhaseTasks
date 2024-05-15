@@ -36,50 +36,46 @@ function messageFormFullyEntered(){
     }
 }
 
-fetchUserdataForm = document.querySelector('#fetchuserdataform');
+//Week7: Search for user data.
 
-if (fetchUserdataForm){
-    fetchUserdataForm.addEventListener('submit', function onSearchFormSubmitted(event) {
-        event.preventDefault();
-        user_query = document.querySelector('#username_id').value;
-        console.log(user_query);
-        //response = fetchUserData(user_query);
-        //console.log(response);
-        fetch('./api/member?' + new URLSearchParams({username: user_query}))
-        .then(function(response){
-            console.log(response);
-            //console.log(response.json());
-            return response.json();
-        })
-        .then(function(data){
-            console.log(data);
-            console.log(data["data"] === null);
-            if (data["data"] === null){
-                document.querySelector('.user-search-result').innerHTML = "未找到使用者";
-            }
-            else {
-                console.log(`${data["data"]["username"]}(${data["data"]["name"]})`);
-                document.querySelector('.user-search-result').innerHTML = `${data["data"]["username"]}(${data["data"]["name"]})`;
-            }//except part needs adding
-        })
-        .catch(function(error){
-            console.log("An error occured");
-            console.log(error);
-        });
+//搜尋其他使用者會觸發的function
+function onSearchFormSubmitted(event) {
+    event.preventDefault();
+    user_query = document.querySelector('#username_id').value;
+    
+    //New to week 7: fetch api. 對應main.py @app.get("/api/member")這段
+    fetch('./api/member?' + new URLSearchParams({username: user_query}))
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+        if (data["data"] === null){
+            document.querySelector('#user_search_result').textContent = "未找到使用者";
+        }
+        else {
+            //console.log(`${data["data"]["username"]}(${data["data"]["name"]})`);
+            document.querySelector('#user_search_result').textContent = `${data["data"]["name"]} (${data["data"]["username"]})`;
+        }
+    })
+    //如果有其他的錯誤
+    .catch(function(error){
+        //console.log(error);
     });
-}
+};
 
-patchUsernameForm = document.querySelector('#patchusernameform');
-patchUsernameForm.addEventListener('submit', onPatchFormSubmitted);
-
+//修改使用者名稱會觸發的function
 function onPatchFormSubmitted(event) {
     event.preventDefault();
-    if (!confirm('This changes your profile naMMMme. Do you wish to continue?')){
+    const new_username = document.querySelector("#new_username_id").value;
+    if (!new_username){
+        alert("Please enter a new display name.")
+        return false;
+    }
+    else if (!confirm('This will change your profile name. Are you sure?\n(Editing will fail if new display name contains all spaces.)')){
         return false;
     };
 
-    const new_username = document.querySelector("#new_username_id").value;
-    console.log(new_username);
+    //https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
     fetch('./api/member',{
         method: 'PATCH',
         headers:{
@@ -92,66 +88,26 @@ function onPatchFormSubmitted(event) {
         return response.json();
     })
     .then(function(data){
-        if ('ok' in data && data['ok'] === true){
-            console.log("Successful change!");
-            resultText = document.querySelector("#displaynameeditresult");
-            resultText.innerHTML = "修改成功！"
+        if ('ok' in data && data['ok']){
+            //console.log("Successful change!");
+            resultText = document.querySelector("#name_edit_result");
+            resultText.textContent = "更新成功！"
         }
-        else if ('error' in data && data['error'] === true){
-            console.log("Unsuccessful change...");
-            resultText = document.querySelector("#displaynameeditresult");
-            resultText.innerHTML = "修改失敗..."
+        else if ('error' in data && data['error']){
+            //console.log("Unsuccessful change...");
+            resultText = document.querySelector("#name_edit_result");
+            resultText.textContent = "更新失敗"
         }
         else{
-            console.log("Weird thigs happened, check backend code")
-            resultText = document.querySelector("#displaynameeditresult");
-            resultText.innerHTML = "修改過程中遇到其他錯誤"
+            //console.log("Other error(s) occured, check backend code")
+            resultText = document.querySelector("#name_edit_result");
+            resultText.textContent = "更新過程中遇到其他錯誤" //還沒有實際碰到
         }
         return data;
     })
     .catch(function(error){
-        console.log(error);
+        //console.log(error);
+        resultText = document.querySelector("#name_edit_result");
+        resultText.textContent = "更新過程中遇到其他錯誤" //還沒有實際碰到
     });
 };
-
-/*
-if (patchEvent){
-    patchEvent.addEventListener('submit', function onPatchFormSubmitted(event) {
-        event.preventDefault();
-        const new_username = document.querySelector("#new_username_id").value;
-        console.log(new_username);
-        fetch('./api/member',{
-            method: 'PATCH',
-            headers:{
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({"name":new_username})
-            }
-        )
-        .then(function(response){
-            return response.json();
-        })
-        .then(function(data){
-            if ('ok' in data && data['ok'] === true){
-                console.log("Successful change!");
-                resultText = document.querySelector("#displaynameeditresult");
-                resultText.innerHTML = "修改成功！"
-            }
-            else if ('error' in data && data['error'] === true){
-                console.log("Unsuccessful change...");
-                resultText = document.querySelector("#displaynameeditresult");
-                resultText.innerHTML = "修改失敗..."
-            }
-            else{
-                console.log("Weird thigs happened, check backend code")
-                resultText = document.querySelector("#displaynameeditresult");
-                resultText.innerHTML = "修改過程中遇到其他錯誤"
-            }
-            return data;
-        })
-        .catch(function(error){
-            console.log(error);
-        });
-    });
-}
-*/
