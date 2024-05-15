@@ -6,8 +6,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
-
-import mysql.connector
+import mysql.connector, os
 
 load_dotenv()
 
@@ -15,14 +14,14 @@ load_dotenv()
 class NewUsername(BaseModel):
     name: str
 
-#database parameters
-db_host="localhost"
-db_user="brian"
-db_pw="password2000mei"
-db_database="website"
+#database parameters [Week7: changed to environment variables]
+db_host=os.getenv("db_host")
+db_user=os.getenv("db_user")
+db_pw=os.getenv("db_pw")
+db_database=os.getenv("db_database")
 
-#sessionMiddleWare secret key parameter
-session_secret_key="RAGEfeatH14ofLEONAIR"
+#sessionMiddleWare secret key parameter [Week7: changed to environment variables]
+session_secret_key=os.getenv("session_secret_key")
 
 #Templates - FastAPI https://fastapi.tiangolo.com/advanced/templates/ & https://fastapi.tiangolo.com/reference/templating/
 templates = Jinja2Templates(directory="templates")
@@ -177,7 +176,7 @@ async def delete_message(request: Request, post_id: int | None = Form(None)):
 
 #Week7 New: API for Member
 #Try Swagger UI
-#try environment variables
+#try environment variables => done
 @app.get("/api/member")
 async def query_member_api(request: Request, username: str):
     #first check login state.
