@@ -124,12 +124,9 @@ async def signin(request: Request, signin_username_text: str | None = Form(None)
     if website_db_result == None:
         return RedirectResponse("/error?message=User not found!", status_code=status.HTTP_303_SEE_OTHER)
     elif signin_password_text == website_db_result[2]:
-        print(request.session)
-        #update_request_session(request.session)
         request.session["member_id"] = website_db_result[0]
         request.session["username"] = website_db_result[1]
         request.session["name"] = website_db_result[3]
-        print(request.session)
         #print("User", request.session["username"], "signed in.")
         return RedirectResponse("/member", status_code=status.HTTP_303_SEE_OTHER)
 
