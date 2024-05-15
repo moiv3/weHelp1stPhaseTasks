@@ -2,7 +2,9 @@
 
 ## This is the Github Repository of Week 7 Assignment.
 
-Some more using of Fetch API and writing a response body.
+Practice Fetch API, separation of front-end/back-end and writing a response body.
+
+Code is also slightly modified to use environment variables for database & secret_key.
 
 ## Features
 
