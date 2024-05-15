@@ -71,7 +71,7 @@ function onPatchFormSubmitted(event) {
         alert("Please enter a new display name.")
         return false;
     }
-    else if (!confirm('This will change your profile name. Are you sure?\n(Editing will fail if new display name contains all spaces.)')){
+    else if (!confirm('This will change your profile name. Are you sure?')){
         return false;
     };
 

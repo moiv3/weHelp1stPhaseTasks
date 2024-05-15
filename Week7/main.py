@@ -209,14 +209,14 @@ async def query_member_api(request: Request, username: str):
 #Week7 new: Add a feature to edit usaername by "PATCH" method
 #Created data model "NewUsername" reference FastAPI request body: https://fastapi.tiangolo.com/tutorial/body/
 async def username_change_api(request: Request, new_username: NewUsername):
+    result_dict_ok={"ok":True}
+    result_dict_error={"error":True}
     #case: user is not signed in
     if "member_id" not in request.session or request.session["member_id"] == None:
-        result_dict={"error":True}
-        return JSONResponse(content=result_dict)
+        return JSONResponse(content=result_dict_error)
     #case: username is empty or all blanks
     elif len(new_username.name) == 0 or new_username.name.isspace():        
-        result_dict={"error":True}
-        return JSONResponse(content=result_dict)
+        return JSONResponse(content=result_dict_error)
     else:
         try:
             website_db = mysql.connector.connect(host=db_host,user=db_user,password=db_pw,database=db_database)    
@@ -224,12 +224,10 @@ async def username_change_api(request: Request, new_username: NewUsername):
             cmd = "UPDATE member SET name = %s WHERE id = %s"
             website_db_cursor.execute(cmd,(new_username.name,request.session["member_id"]))
             website_db.commit()
-            result_dict={"ok":True}
-            return JSONResponse(content=result_dict)
+            return JSONResponse(content=result_dict_ok)
         except Exception as error:
             print(error)
-            result_dict={"error":True}
-            return JSONResponse(content=result_dict)
+            return JSONResponse(content=result_dict_error)
 
 
 """
