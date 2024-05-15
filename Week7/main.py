@@ -4,11 +4,14 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse, JSONResponse
 from starlette.middleware.sessions import SessionMiddleware
 from pydantic import BaseModel
-
-import mysql.connector, json
-
+from dotenv import load_dotenv
 
 
+import mysql.connector
+
+load_dotenv()
+
+#define class for request body of PATCH username feature (Week7)
 class NewUsername(BaseModel):
     name: str
 
@@ -172,17 +175,18 @@ async def delete_message(request: Request, post_id: int | None = Form(None)):
     #print("Deleted message!")
     return RedirectResponse("/member", status_code=status.HTTP_303_SEE_OTHER)
 
+#Week7 New: API for Member
+#Try Swagger UI
+#try environment variables
 @app.get("/api/member")
-# main page renders login.html template.
 async def query_member_api(request: Request, username: str):
-    #if all(item in request.session for item in ("member_id", "username", "name")):
-    #    print(request.session["member_id"],request.session["username"],request.session["name"])
-    #else:
-    #    print("nothing inside request.session")
-    flag=1
+    #first check login state.
+    #1. login state NG: response None(python)/null(js)
     if "member_id" not in request.session or request.session["member_id"] == None:
         result_dict={"data":None}
         return JSONResponse(content=result_dict)
+    
+    #2. login state OK: MySQL SELECT data
     else:
         website_db = mysql.connector.connect(host=db_host,user=db_user,password=db_pw,database=db_database)    
         website_db_cursor = website_db.cursor()
@@ -190,25 +194,31 @@ async def query_member_api(request: Request, username: str):
         cmd = "SELECT id, username, name FROM member WHERE username = %s"
         website_db_cursor.execute(cmd,(username,))
         website_db_result = website_db_cursor.fetchone()
+        
+        #2-1: if successfully SELECT data: response with that data (json format)
         if website_db_result != None:
-            result_dict={"data":{"member_id":None,"username":None,"name":None}}
-            result_dict["data"]["member_id"] = website_db_result[0]
-            result_dict["data"]["username"] = website_db_result[1]
+            result_dict={"data":{}}
+            result_dict["data"]["id"] = website_db_result[0]
             result_dict["data"]["name"] = website_db_result[2]
-            print(json.dumps(result_dict))
+            result_dict["data"]["username"] = website_db_result[1]
             return JSONResponse(content=result_dict)
+        
+        #2-2: if unsuccessful: return None(python)/null(js)
         else:
             result_dict={"data":None}
             return JSONResponse(content=result_dict)
 
 
-    #return templates.TemplateResponse("login.html", {"request": request})
-
 @app.patch("/api/member")
+#Week7 new: Add a feature to edit usaername by "PATCH" method
+#Created data model "NewUsername" reference FastAPI request body: https://fastapi.tiangolo.com/tutorial/body/
 async def username_change_api(request: Request, new_username: NewUsername):
-    print(new_username)
-    print(new_username.name)
+    #case: user is not signed in
     if "member_id" not in request.session or request.session["member_id"] == None:
+        result_dict={"error":True}
+        return JSONResponse(content=result_dict)
+    #case: username is empty or all blanks
+    elif len(new_username.name) == 0 or new_username.name.isspace():        
         result_dict={"error":True}
         return JSONResponse(content=result_dict)
     else:
@@ -225,10 +235,6 @@ async def username_change_api(request: Request, new_username: NewUsername):
             result_dict={"error":True}
             return JSONResponse(content=result_dict)
 
-
-
-
-    #return RedirectResponse("/error?message=有成功連過來!",status_code=303)
 
 """
 DB Schemas:
