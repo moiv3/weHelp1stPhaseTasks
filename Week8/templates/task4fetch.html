@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Trial</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+
+<body>
+    <div class="page-title">Fetch測試</div>
+    <div class="general-form">Test script</div>
+    <div class="general-form">
+        Fetch測試的程式碼可以直接參考原始碼
+    </div>
+
+    <div class="general-form">
+        <a href='#' onclick='return fetchGoogle()'>Fetch Google.com</a>
+        <a href='#' onclick='return fetchPadaX()'>Fetch Pada-X JSON</a>
+        <a href='#' onclick='return fetchTest("https://api.github.com","GET")'>Fetch Github API (GET)</a>
+        <input type="text" id="fetchTest" placeholder="Enter fetch target (add https://)"></input>
+        <button onclick="return fetchTestWithoulURL()">Fetch URL in the Box</button>
+        
+        <a href='#' onclick='return fetchTest("http://localhost:8000/member","GET")'>Fetch localhost/member (GET)</a>
+        <a href='#' onclick='return fetchTest("http://localhost:8000/postTrial","POST")'>Fetch localhost/postTrial (POST)</a>
+    </div>
+
+    <div>
+        <a href="./" class="general-form">返回登入頁面</a>
+    </div>
+
+
+</body>
+
+ <script>
+    function fetchTestWithoulURL(){
+        targetURL = document.querySelector("#fetchTest").value;
+        console.log(targetURL);
+        fetch(targetURL)
+        .then(function(response){
+            return response;
+        })
+        .then(function(data){
+            console.log(data);
+            return false;
+        })
+        .catch(function(error){
+            console.log(error);
+            return false;
+        });
+    }
+
+    function fetchTest(targetURL, method_arg){
+        fetch(targetURL,{method: method_arg})
+        .then(function(response){
+            return response;
+        })
+        .then(function(data){
+            console.log(data);
+            return false;
+        })
+        .catch(function(error){
+            console.log(error);
+            return false;
+        });
+    }
+
+    function fetchGoogle(){
+        fetch('https://www.google.com/')
+        .then(function(response){
+            return response;
+        })
+        .then(function(data){
+            console.log(data);
+            return false;
+        })
+        .catch(function(error){
+            console.log(error);
+            return false;
+        });
+    }
+
+    function fetchPadaX(){
+    fetch('https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment.json')
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+        console.log(data);
+            return false;
+    })
+    .catch(function(error){
+        console.log(error);
+            return false;
+    });
+    }
+</script>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Member Page] Week 7 Assignment - Frontend and Backend Separation</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+
+<body>
+    <div class="page-title">歡迎光臨，這是會員頁</div>
+    <h2 class="general-form">{{ member_name }}，歡迎登入系統</h2>
+    <a href="/signout" class="general-form">登出系統</a>
+
+    <hr/>
+
+    <h2 class="general-form">快來留言吧！</h2>
+    <form class="general-form" id="messageboard" method="post" onsubmit="return messageFormFullyEntered()" action="/createMessage">
+        <div>
+            <label for="new_message">內容</label>
+            <input type="text" id="new_message" name="new_message_name">
+        </div>
+        <div>
+            <button type="submit">送出</button>
+        </div>
+    </form>
+
+    <hr/>
+
+    <div class="centered-general-text" id="user_search_div">
+    <h2 class="general-form">查詢會員姓名</h2>
+    <form class="general-form" id="fetch_userdata_form" method="get" onsubmit="return onSearchFormSubmitted(event);">
+        <div>
+            <label for="username_id"></label>
+            <input type="text" id="username_id" name="username_name"> 
+            <button type="submit">查詢</button>
+        </div>
+    </form>
+    <div class="centered-general-text" id="user_search_result"></div>
+    </div>
+
+    <hr/>
+
+    <div class="centered-general-text" id="user_patch_div">
+    <h2 class="general-form">更新我的姓名</h2>
+    <form class="general-form" id="patch_username_form" method="post" onsubmit="return onPatchFormSubmitted(event);">
+        <div>
+            <label for="new_username_id"></label>
+            <input type="text" id="new_username_id" name="new_username" placeholder="輸入新的姓名"> 
+            <button type="submit">更新</button>
+        </div>        
+    </form>
+    <div class="centered-general-text" id="name_edit_result"></div>
+    </div>
+
+    <hr/>
+
+    <h2 class="general-form">大家的留言板</h2>
+    <ul id="messages">
+        {% for item in messages %}
+            <li><b>{{ item[0] }}</b> 說： {{ item[1] }}
+                {% if member_id == item[2] %}
+                    <form id="deletebutton" method="post" onsubmit="return confirm('Do you really want to delete this message?')" action="/deleteMessage" style="display: inline;">
+                        <button name="post_id" value={{ item[3] }}>Delete</button>
+                    </form>
+                {% endif %}</li>
+        {% endfor %}
+    </ul>
+</body>
+
+<script src="static/script.js"></script>
+
+</html>
